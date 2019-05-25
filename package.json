@@ -2,6 +2,7 @@
     "name": "toggl-weekly-report",
     "version": "0.1.0",
     "private": true,
+    "proxy": "http://localhost:5000",
     "homepage": "https://toggl.benjavr.me",
     "dependencies": {
         "@types/jest": "24.0.11",
