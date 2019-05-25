@@ -12,7 +12,7 @@ app.use(async (req: express.Request, res: express.Response) => {
             authorization: req.headers.authorization || "",
         },
     };
-    if (req.method === "POST" || req.method === "PUT" || req.method === "PATCH") {
+    if (Object.keys(req.body).length > 0) {
         toggleRequestInit.body = req.body;
     }
     const toggleUrl = `https://toggl.com${req.url}`;
