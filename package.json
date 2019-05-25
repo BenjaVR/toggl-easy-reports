@@ -1,6 +1,4 @@
 {
-    "name": "toggl-weekly-report",
-    "version": "0.1.0",
     "private": true,
     "proxy": "http://localhost:5000",
     "homepage": "https://toggl.benjavr.me",
@@ -15,12 +13,28 @@
         "react-scripts": "3.0.1",
         "whatwg-fetch": "3.0.0"
     },
+    "devDependencies": {
+        "husky": "2.3.0",
+        "prettier": "1.17.1",
+        "tslint": "5.15.0",
+        "tslint-config-prettier": "1.18.0",
+        "tslint-plugin-prettier": "2.0.1",
+        "tslint-react": "4.0.0",
+        "typescript": "3.4.1",
+        "typescript-tslint-plugin": "0.4.0"
+    },
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
+        "lint": "tslint --project ./tsconfig.json --format codeFrame",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run lint"
+        }
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -30,11 +44,5 @@
         "not dead",
         "not ie <= 11",
         "not op_mini all"
-    ],
-    "devDependencies": {
-        "tslint": "5.15.0",
-        "tslint-config-prettier": "1.18.0",
-        "tslint-react": "4.0.0",
-        "typescript": "3.4.1"
-    }
+    ]
 }

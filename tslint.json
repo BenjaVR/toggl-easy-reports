@@ -1,7 +1,8 @@
 {
     "defaultSeverity": "error",
-    "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
-    "jsRules": {},
-    "rules": {},
-    "rulesDirectory": []
+    "extends": ["tslint:recommended", "tslint-react", "tslint-plugin-prettier", "tslint-config-prettier"],
+    "rules": {
+        "prettier": true,
+        "member-ordering": [true, { "order": "fields-first" }]
+    }
 }
