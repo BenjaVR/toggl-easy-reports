@@ -1,8 +1,24 @@
 {
     "defaultSeverity": "error",
-    "extends": ["tslint:recommended", "tslint-react", "tslint-plugin-prettier", "tslint-config-prettier"],
+    "extends": [
+        "tslint:recommended",
+        "tslint-react",
+        "tslint-plugin-prettier",
+        "tslint-config-prettier"
+    ],
     "rules": {
         "prettier": true,
-        "member-ordering": [true, { "order": "fields-first" }]
+        "member-ordering": [
+            true,
+            {
+                "order": "fields-first"
+            }
+        ],
+        "no-console": {
+            "severity": "warning",
+            "options": [
+                "log"
+            ]
+        }
     }
 }
