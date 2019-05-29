@@ -18,9 +18,13 @@ app.use(async (req: express.Request, res: express.Response) => {
 
     const toggleUrl = `https://toggl.com${req.url}`;
     const togglResponse = await fetch(toggleUrl, toggleRequestInit);
-    const togglJsonResponse = await togglResponse.json();
 
-    return res.status(togglResponse.status).json(togglJsonResponse);
+    try {
+        const togglJsonResponse = await togglResponse.json();
+        return res.status(togglResponse.status).json(togglJsonResponse);
+    } catch (exception) {
+        console.error("Proxy response was not json:", exception);
+    }
 });
 
 const port = 5000;
