@@ -1,5 +1,7 @@
 export default class ApiTokenService {
-    public static async getToken(): Promise<string> {
-        return Promise.resolve("APIKEY"); // TODO
+    private static localStorageKey = "TogglEasyReports_ApiKey";
+
+    public static getToken(): string {
+        return localStorage.getItem(this.localStorageKey) || "";
     }
 }

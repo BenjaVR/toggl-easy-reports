@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import { ApiKeyForm } from "../ApiKeyForm";
+import { TogglLogin } from "../TogglLogin";
 
-class App extends Component {
+export default class App extends Component {
     public render(): React.ReactNode {
-        return null;
+        return (
+            <React.Fragment>
+                <TogglLogin />,
+                <ApiKeyForm />
+            </React.Fragment>
+        );
     }
 }
-
-export default App;
