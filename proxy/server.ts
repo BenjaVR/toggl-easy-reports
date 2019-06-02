@@ -22,8 +22,10 @@ app.use(async (req: express.Request, res: express.Response) => {
     try {
         const togglJsonResponse = await togglResponse.json();
         return res.status(togglResponse.status).json(togglJsonResponse);
-    } catch (exception) {
-        console.error("Proxy response was not json:", exception);
+    } catch (err) {
+        return res.status(500).json({
+            proxyError: err
+        });
     }
 });
 
