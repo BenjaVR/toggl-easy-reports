@@ -4,4 +4,8 @@ export default class ApiTokenService {
     public static getToken(): string {
         return localStorage.getItem(this.localStorageKey) || "";
     }
+
+    public static setToken(token: string): void {
+        return localStorage.setItem(this.localStorageKey, token);
+    }
 }

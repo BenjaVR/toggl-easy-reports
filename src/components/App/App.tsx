@@ -1,14 +1,15 @@
+import { Layout } from "antd";
 import React, { Component } from "react";
-import { ApiKeyForm } from "../ApiKeyForm";
+import { OptionsMenu } from "../OptionsMenu";
 import { TogglLogin } from "../TogglLogin";
 
 export default class App extends Component {
     public render(): React.ReactNode {
         return (
-            <React.Fragment>
+            <Layout>
                 <TogglLogin />,
-                <ApiKeyForm />
-            </React.Fragment>
+                <OptionsMenu />
+            </Layout>
         );
     }
 }
