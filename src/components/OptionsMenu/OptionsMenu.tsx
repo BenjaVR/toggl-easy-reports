@@ -1,25 +1,99 @@
-import { Dropdown, Icon, Menu } from "antd";
+import { Dropdown, Icon, Menu, message } from "antd";
 import * as React from "react";
-import { ApiKeyForm } from "../ApiKeyForm";
+import ReactDOM from "react-dom";
+import { BindThis } from "../../utilities/BindThis";
+import { ApiKeyForm } from "./ApiKeyForm";
 
-export default class OptionsMenu extends React.Component {
+export interface IOptionsMenuItemProps {
+    readonly onSave: (savedMessage: string) => void;
+}
+
+interface IOptionsMenuState {
+    readonly isDropdownOpen: boolean;
+}
+
+export default class OptionsMenu extends React.Component<{}, IOptionsMenuState> {
     private readonly iconStyles: React.CSSProperties = {
+        color: "white",
         fontSize: 24,
     };
 
-    public render() {
+    private dropdownContentRef: Menu | undefined;
+    private dropdownRef: Dropdown | undefined;
+
+    constructor(props: {}) {
+        super(props);
+
+        this.state = {
+            isDropdownOpen: false,
+        };
+    }
+
+    public componentDidMount(): void {
+        window.addEventListener("mousedown", this.handleDropdownOutsideClicked);
+    }
+
+    public componentWillUnmount(): void {
+        window.removeEventListener("mousedown", this.handleDropdownOutsideClicked);
+    }
+
+    public render(): React.ReactNode {
         return (
-            <Dropdown overlay={this.renderMenu()} trigger={["click"]}>
-                <Icon type="setting" theme="outlined" style={this.iconStyles} />
+            <Dropdown
+                ref={ref => (this.dropdownRef = ref ? ref : undefined)}
+                overlay={this.renderMenu()}
+                visible={this.state.isDropdownOpen}
+            >
+                <Icon type="setting" theme="outlined" style={this.iconStyles} onClick={this.toggleDropdown} />
             </Dropdown>
         );
     }
 
+    @BindThis()
     private renderMenu(): React.ReactNode {
         return (
-            <Menu>
-                <ApiKeyForm />
+            <Menu style={{ padding: 12 }} ref={ref => (this.dropdownContentRef = ref ? ref : undefined)}>
+                <ApiKeyForm onSave={this.handleSave} />
             </Menu>
         );
+    }
+
+    @BindThis()
+    private handleSave(savedMessage: string): void {
+        message.success(savedMessage);
+        this.closeDropdown();
+    }
+
+    @BindThis()
+    private toggleDropdown(): void {
+        this.setState({
+            isDropdownOpen: !this.state.isDropdownOpen,
+        });
+    }
+
+    @BindThis()
+    private closeDropdown(): void {
+        this.setState({
+            isDropdownOpen: false,
+        });
+    }
+
+    /**
+     * Event handler to detect clicks outside the opened dropdown, to know when to close it.
+     */
+    @BindThis()
+    private handleDropdownOutsideClicked(event: MouseEvent): void {
+        if (!this.state.isDropdownOpen) {
+            return;
+        }
+        const elementClickedOn = event.target as Node;
+        const dropdownDomElement = ReactDOM.findDOMNode(this.dropdownRef);
+        const dropdownContentDomElement = ReactDOM.findDOMNode(this.dropdownContentRef);
+        const elementClickedOnIsDropdownIcon = dropdownDomElement && dropdownDomElement.contains(elementClickedOn);
+        const elementClickedOnIsOutsideDropdownContent =
+            dropdownContentDomElement && !dropdownContentDomElement.contains(elementClickedOn);
+        if (elementClickedOnIsOutsideDropdownContent && !elementClickedOnIsDropdownIcon) {
+            this.closeDropdown();
+        }
     }
 }
