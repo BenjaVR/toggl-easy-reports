@@ -3,6 +3,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { BindThis } from "../../utilities/BindThis";
 import { ApiKeyForm } from "./ApiKeyForm";
+import { styles } from "./OptionsMenu.styles";
 
 export interface IOptionsMenuItemProps {
     readonly onSave: (savedMessage: string) => void;
@@ -13,11 +14,6 @@ interface IOptionsMenuState {
 }
 
 export default class OptionsMenu extends React.Component<{}, IOptionsMenuState> {
-    private readonly iconStyles: React.CSSProperties = {
-        color: "white",
-        fontSize: 24,
-    };
-
     private dropdownContentRef: Menu | undefined;
     private dropdownRef: Dropdown | undefined;
 
@@ -44,7 +40,7 @@ export default class OptionsMenu extends React.Component<{}, IOptionsMenuState> 
                 overlay={this.renderMenu()}
                 visible={this.state.isDropdownOpen}
             >
-                <Icon type="setting" theme="outlined" style={this.iconStyles} onClick={this.toggleDropdown} />
+                <Icon type="setting" theme="outlined" style={styles.iconStyles} onClick={this.toggleDropdown} />
             </Dropdown>
         );
     }
