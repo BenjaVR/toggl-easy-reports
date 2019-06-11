@@ -1,23 +1,39 @@
-import { Layout } from "antd";
+import { Avatar, Layout } from "antd";
 import React, { Component } from "react";
+import { verticalCenterStyles } from "../../utilities/styles";
 import { OptionsMenu } from "../OptionsMenu";
 import { TogglLogin } from "../TogglLogin";
 
 export default class App extends Component {
     private readonly headerStyles: React.CSSProperties = {
         height: 58,
+        position: "relative",
+    };
+    private readonly avatarContainerStyles: React.CSSProperties = {
+        left: 15,
+        ...verticalCenterStyles,
+    };
+    private readonly optionsContainerStyles: React.CSSProperties = {
+        marginTop: 5,
+        right: 15,
+        ...verticalCenterStyles,
+    };
+    private readonly contentStyles: React.CSSProperties = {
+        padding: "0 50px",
     };
 
     public render(): React.ReactNode {
         return (
-            <Layout className="layout">
+            <Layout>
                 <Layout.Header style={this.headerStyles}>
-                    <div className="logo" />
-                    <div style={{ width: "100%", textAlign: "right" }}>
+                    <div style={this.avatarContainerStyles}>
+                        <Avatar size="small" />
+                    </div>
+                    <div style={this.optionsContainerStyles}>
                         <OptionsMenu />
                     </div>
                 </Layout.Header>
-                <Layout.Content style={{ padding: "0 50px" }}>
+                <Layout.Content style={this.contentStyles}>
                     <div style={{ background: "#fff", padding: 24, minHeight: 100 }}>
                         <TogglLogin />
                     </div>
