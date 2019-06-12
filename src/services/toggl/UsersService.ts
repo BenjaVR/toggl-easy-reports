@@ -1,6 +1,6 @@
 import BaseTogglApiService from "./BaseTogglApiService";
 
-interface IUser {
+export interface IUser {
     data: {
         email: string;
         fullname: string;
