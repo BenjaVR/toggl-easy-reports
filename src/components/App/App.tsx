@@ -1,11 +1,11 @@
-import { Avatar, Layout, Tooltip } from "antd";
+import { Avatar, Layout, message, Tooltip } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 import { IApplicationState } from "../../stores/rootReducer";
 import { login, UserAction } from "../../stores/user/actions";
+import { BindThis } from "../../utilities/BindThis";
 import { OptionsMenu } from "../OptionsMenu";
-import { TogglLogin } from "../TogglLogin";
 import { styles } from "./App.styles";
 
 type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
@@ -15,10 +15,17 @@ class App extends Component<AppProps> {
         this.props.login();
     }
 
+    public componentDidUpdate(prevProps: AppProps): void {
+        this.notifyUserAuthChange(prevProps);
+    }
+
     public render(): React.ReactNode {
-        const { userData } = this.props;
+        const { userData, authState } = this.props;
         const avatarSrc = userData === undefined ? undefined : userData.image_url;
         const userNameAndEmail = userData === undefined ? "" : `${userData.fullname} (${userData.email})`;
+
+        const content =
+            authState === "Authenticated" ? this.renderAuthenticatedContent() : this.renderNotAuthenticatedContent();
 
         return (
             <Layout>
@@ -32,20 +39,40 @@ class App extends Component<AppProps> {
                         <OptionsMenu />
                     </div>
                 </Layout.Header>
-                <Layout.Content style={styles.content}>
-                    <div style={styles.innerContent}>
-                        <TogglLogin />
-                    </div>
-                </Layout.Content>
+                <Layout.Content style={styles.content}>{content}</Layout.Content>
                 <Layout.Footer style={styles.footer}>FOOTER</Layout.Footer>
             </Layout>
         );
+    }
+
+    @BindThis()
+    private renderAuthenticatedContent(): React.ReactNode {
+        // TODO: temporary content.
+        return <h1>Hello, world!</h1>;
+    }
+
+    @BindThis()
+    private renderNotAuthenticatedContent(): React.ReactNode {
+        // TODO: temporary content.
+        return <h1>LOGIN PLS</h1>;
+    }
+
+    private notifyUserAuthChange(prevProps: AppProps): void {
+        if (prevProps.authState === "Authenticating") {
+            const { authState, userData } = this.props;
+            if (authState === "Authenticated" && userData !== undefined) {
+                message.success(`Successfully logged in, ${userData.fullname}!`);
+            } else if (authState === "NotAuthenticated") {
+                message.error("Please enter a valid API key!");
+            }
+        }
     }
 }
 
 function mapStateToProps(state: IApplicationState) {
     return {
         userData: state.user.userData,
+        authState: state.user.authenticationState,
     };
 }
 

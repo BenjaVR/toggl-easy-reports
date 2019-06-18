@@ -25,9 +25,12 @@ export type UserAction = IUserLoginRequestAction | IUserLoginSuccessAction | IUs
 export function login(): ThunkAction<void, IUserState, undefined, Action<UserActionType>> {
     return async dispatch => {
         dispatch(loginRequest());
-        // TODO: error/not authenticated handling
-        const user = await UsersService.getCurrentUser();
-        dispatch(loginSuccess(user));
+        try {
+            const user = await UsersService.getCurrentUser();
+            dispatch(loginSuccess(user));
+        } catch {
+            dispatch(loginFailed());
+        }
     };
 }
 
