@@ -6,13 +6,13 @@ type UserAuthenticationState = "NotAuthenticated" | "Authenticating" | "Authenti
 export interface IUserState {
     apiKey: string | undefined;
     authenticationState: UserAuthenticationState;
-    user: IUser | undefined;
+    userData: IUser | undefined;
 }
 
 const initialState: IUserState = {
     apiKey: undefined,
     authenticationState: "NotAuthenticated",
-    user: undefined,
+    userData: undefined,
 };
 
 export function userReducer(state = initialState, action: UserAction): IUserState {
@@ -27,13 +27,13 @@ export function userReducer(state = initialState, action: UserAction): IUserStat
             return {
                 ...state,
                 authenticationState: "Authenticated",
-                user: action.user,
+                userData: action.user,
             };
         case "USER_LOGIN_FAILED":
             return {
                 ...state,
                 authenticationState: "NotAuthenticated",
-                user: undefined,
+                userData: undefined,
             };
         default:
             return state;

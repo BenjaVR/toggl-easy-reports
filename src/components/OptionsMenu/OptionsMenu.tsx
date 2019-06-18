@@ -39,8 +39,9 @@ export default class OptionsMenu extends React.Component<{}, IOptionsMenuState> 
                 ref={ref => (this.dropdownRef = ref ? ref : undefined)}
                 overlay={this.renderMenu()}
                 visible={this.state.isDropdownOpen}
+                overlayStyle={styles.dropdownOverlay}
             >
-                <Icon type="setting" theme="outlined" style={styles.iconStyles} onClick={this.toggleDropdown} />
+                <Icon type="setting" theme="outlined" style={styles.icon} onClick={this.toggleDropdown} />
             </Dropdown>
         );
     }
@@ -48,7 +49,7 @@ export default class OptionsMenu extends React.Component<{}, IOptionsMenuState> 
     @BindThis()
     private renderMenu(): React.ReactNode {
         return (
-            <Menu style={{ padding: 12 }} ref={ref => (this.dropdownContentRef = ref ? ref : undefined)}>
+            <Menu style={styles.menu} ref={ref => (this.dropdownContentRef = ref ? ref : undefined)}>
                 <ApiKeyForm onSave={this.handleSave} />
             </Menu>
         );
@@ -75,7 +76,7 @@ export default class OptionsMenu extends React.Component<{}, IOptionsMenuState> 
     }
 
     /**
-     * Event handler to detect clicks outside the opened dropdown, to know when to close it.
+     * Event handler to detect clicks outside the opened dropdownOverlay, to know when to close it.
      */
     @BindThis()
     private handleDropdownOutsideClicked(event: MouseEvent): void {

@@ -1,4 +1,4 @@
-import { Avatar, Layout } from "antd";
+import { Avatar, Layout, Tooltip } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
@@ -16,11 +16,17 @@ class App extends Component<AppProps> {
     }
 
     public render(): React.ReactNode {
+        const { userData } = this.props;
+        const avatarSrc = userData === undefined ? undefined : userData.image_url;
+        const userNameAndEmail = userData === undefined ? "" : `${userData.fullname} (${userData.email})`;
+
         return (
             <Layout>
                 <Layout.Header style={styles.header}>
                     <div style={styles.avatarContainer}>
-                        <Avatar size="small" />
+                        <Tooltip title={userNameAndEmail} placement="bottomRight">
+                            <Avatar size="small" src={avatarSrc} />
+                        </Tooltip>
                     </div>
                     <div style={styles.optionsContainer}>
                         <OptionsMenu />
@@ -39,7 +45,7 @@ class App extends Component<AppProps> {
 
 function mapStateToProps(state: IApplicationState) {
     return {
-        user: state.user,
+        userData: state.user.userData,
     };
 }
 

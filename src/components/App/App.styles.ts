@@ -1,8 +1,10 @@
 import { createStyles, verticalCenterStyles } from "../../utilities/styles";
 
+const appBarMargin = 25;
+
 export const styles = createStyles({
     avatarContainer: {
-        left: 15,
+        left: appBarMargin,
         ...verticalCenterStyles,
     },
     content: {
@@ -22,7 +24,7 @@ export const styles = createStyles({
     },
     optionsContainer: {
         marginTop: 5,
-        right: 15,
+        right: appBarMargin,
         ...verticalCenterStyles,
     },
 });
