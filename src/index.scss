@@ -1,0 +1,5 @@
+// Fix to put Ant Design messages on the left side of the screen instead of centered.
+.ant-message-notice-content {
+    position: absolute;
+    left: 10px;
+}
