@@ -3,6 +3,9 @@ import { createStyles, verticalCenterStyles } from "../../utilities/styles";
 const appBarMargin = 25;
 
 export const styles = createStyles({
+    layout: {
+        height: "100vh",
+    },
     avatarContainer: {
         left: appBarMargin,
         ...verticalCenterStyles,

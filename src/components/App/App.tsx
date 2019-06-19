@@ -28,7 +28,7 @@ class App extends Component<AppProps> {
             authState === "Authenticated" ? this.renderAuthenticatedContent() : this.renderNotAuthenticatedContent();
 
         return (
-            <Layout>
+            <Layout style={styles.layout}>
                 <Layout.Header style={styles.header}>
                     <div style={styles.avatarContainer}>
                         <Tooltip title={userNameAndEmail} placement="bottomRight">
