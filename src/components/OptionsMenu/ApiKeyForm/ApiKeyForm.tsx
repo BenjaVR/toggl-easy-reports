@@ -1,14 +1,20 @@
-import { Button, Input, message } from "antd";
+import { Button, Input } from "antd";
 import React from "react";
-import ApiTokenService from "../../services/toggl/ApiTokenService";
-import { BindThis } from "../../utilities/BindThis";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch } from "redux";
+import ApiTokenService from "../../../services/toggl/ApiTokenService";
+import { login, UserAction } from "../../../stores/user/actions";
+import { BindThis } from "../../../utilities/BindThis";
+import { IOptionsMenuItemProps } from "../OptionsMenu";
+
+type ApiKeyFormProps = IOptionsMenuItemProps & ReturnType<typeof mapDispatchToProps>;
 
 interface IApiKeyFormState {
     readonly apiKey: string;
 }
 
-export default class ApiKeyForm extends React.Component<{}, IApiKeyFormState> {
-    constructor(props: {}) {
+class ApiKeyForm extends React.Component<ApiKeyFormProps, IApiKeyFormState> {
+    constructor(props: ApiKeyFormProps) {
         super(props);
 
         this.state = {
@@ -45,6 +51,21 @@ export default class ApiKeyForm extends React.Component<{}, IApiKeyFormState> {
     @BindThis()
     private onSave(): void {
         ApiTokenService.setToken(this.state.apiKey);
-        message.success("API key saved!");
+        this.props.onSave("API key saved!");
+        this.props.login(); // Do login action every time the key has changed.
     }
 }
+
+function mapDispatchToProps(dispatch: Dispatch<UserAction>) {
+    return bindActionCreators(
+        {
+            login,
+        },
+        dispatch,
+    );
+}
+
+export default connect(
+    undefined,
+    mapDispatchToProps,
+)(ApiKeyForm);
