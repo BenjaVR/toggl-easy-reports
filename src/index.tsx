@@ -8,6 +8,13 @@ import "./index.scss";
 import "./polyfills";
 import initializeStore from "./stores/initializeStore";
 
+// Ant design notification messages.
+message.config({
+    maxCount: 1,
+    top: 45,
+});
+
+// Redux store.
 const store = initializeStore();
 
 ReactDOM.render(

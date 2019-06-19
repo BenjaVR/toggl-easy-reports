@@ -49,8 +49,18 @@ class App extends Component<AppProps, IAppState> {
         const avatarSrc = userData === undefined ? undefined : userData.image_url;
         const avatarTooltipPlacement: TooltipPlacement = this.state.isSmallWidth ? "bottomRight" : "right";
 
-        const content =
-            authState === "Authenticated" ? this.renderAuthenticatedContent() : this.renderNotAuthenticatedContent();
+        let content: React.ReactNode;
+        switch (authState) {
+            case "Authenticated":
+                content = this.renderAuthenticatedContent();
+                break;
+            case "NotAuthenticated":
+                content = this.renderNotAuthenticatedContent();
+                break;
+            case "Authenticating":
+                content = this.renderAuthenticatingContent();
+                break;
+        }
 
         return (
             <Layout style={styles.layout}>
@@ -59,6 +69,9 @@ class App extends Component<AppProps, IAppState> {
                         <Tooltip title={userNameAndEmail} placement={avatarTooltipPlacement} autoAdjustOverflow={true}>
                             <Avatar size="small" src={avatarSrc} />
                         </Tooltip>
+                    </div>
+                    <div style={styles.navbarCenter}>
+                        <h1 style={styles.navbarTitle}>Toggl Easy Reports</h1>
                     </div>
                     <div style={styles.optionsContainer}>
                         <OptionsMenu />
@@ -70,13 +83,11 @@ class App extends Component<AppProps, IAppState> {
         );
     }
 
-    @BindThis()
     private renderAuthenticatedContent(): React.ReactNode {
         // TODO: temporary content.
         return <h1>Hello, world!</h1>;
     }
 
-    @BindThis()
     private renderNotAuthenticatedContent(): React.ReactNode {
         return (
             <Alert
@@ -95,6 +106,10 @@ class App extends Component<AppProps, IAppState> {
         );
     }
 
+    private renderAuthenticatingContent(): React.ReactNode {
+        return <Spin style={styles.loadingSpinner} />;
+    }
+
     private notifyUserAuthChange(prevProps: AppProps): void {
         if (prevProps.authState === "Authenticating") {
             const { authState, userData } = this.props;
@@ -102,6 +117,10 @@ class App extends Component<AppProps, IAppState> {
                 message.success(`Successfully logged in, ${userData.fullname}!`);
             } else if (authState === "NotAuthenticated") {
                 message.error("Please enter a valid API key!");
+            }
+        } else {
+            if (this.props.authState === "Authenticating") {
+                message.loading("Logging in...");
             }
         }
     }

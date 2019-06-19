@@ -10,8 +10,22 @@ export const styles = createStyles({
         left: appBarMargin,
         ...verticalCenterStyles,
     },
+    navbarCenter: {
+        textAlign: "center",
+    },
+    navbarTitle: {
+        color: "white",
+        textTransform: "uppercase",
+        padding: "0 10px",
+        ...ellipsisText,
+    },
     content: {
-        padding: "0 50px",
+        padding: "35px 50px",
+        backgroundColor: "white",
+        textAlign: "center",
+    },
+    loadingSpinner: {
+        ...verticalCenterStyles,
     },
     footer: {
         textAlign: "center",
