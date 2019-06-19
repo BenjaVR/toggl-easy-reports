@@ -7,7 +7,7 @@ interface IQueryString {
 
 export default abstract class BaseTogglApiService {
     private static BASE_URL: string = "https://toggl.com";
-    private static USER_AGENT: string = "https://github.com/BenjaVR/toggl-weekly-report";
+    private static USER_AGENT: string = "https://github.com/BenjaVR/toggl-easy-report";
 
     protected static async fetch<TResponse>(urlPath: string, queryString: IQueryString = {}): Promise<TResponse> {
         const apiKey = await ApiTokenService.getToken();
@@ -39,7 +39,6 @@ export default abstract class BaseTogglApiService {
             queryString["user-agent"] = this.USER_AGENT;
         }
 
-        const url = `${path}?${qs.stringify(queryString)}`;
-        return url;
+        return `${path}?${qs.stringify(queryString)}`;
     }
 }
