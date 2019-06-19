@@ -1,4 +1,4 @@
-import { createStyles, verticalCenterStyles } from "../../utilities/styles";
+import { createStyles, ellipsisText, verticalCenterStyles } from "../../utilities/styles";
 
 const appBarMargin = 25;
 

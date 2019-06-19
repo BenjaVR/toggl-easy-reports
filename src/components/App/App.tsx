@@ -1,4 +1,5 @@
-import { Avatar, Layout, message, Tooltip } from "antd";
+import { Alert, Avatar, Icon, Layout, message, Spin, Tooltip } from "antd";
+import { TooltipPlacement } from "antd/lib/tooltip";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
@@ -10,9 +11,31 @@ import { styles } from "./App.styles";
 
 type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-class App extends Component<AppProps> {
+interface IAppState {
+    isSmallWidth: boolean;
+}
+
+class App extends Component<AppProps, IAppState> {
+    private readonly widthMediaQuery: MediaQueryList;
+
+    constructor(props: AppProps) {
+        super(props);
+
+        this.state = {
+            isSmallWidth: false,
+        };
+
+        this.widthMediaQuery = window.matchMedia("(max-width: 500px)");
+    }
+
     public componentDidMount(): void {
         this.props.login();
+
+        this.widthMediaQuery.addEventListener("change", this.handleWidthMediaQueryChanged);
+    }
+
+    public componentWillUnmount(): void {
+        this.widthMediaQuery.removeEventListener("change", this.handleWidthMediaQueryChanged);
     }
 
     public componentDidUpdate(prevProps: AppProps): void {
@@ -21,8 +44,10 @@ class App extends Component<AppProps> {
 
     public render(): React.ReactNode {
         const { userData, authState } = this.props;
-        const avatarSrc = userData === undefined ? undefined : userData.image_url;
         const userNameAndEmail = userData === undefined ? "" : `${userData.fullname} (${userData.email})`;
+
+        const avatarSrc = userData === undefined ? undefined : userData.image_url;
+        const avatarTooltipPlacement: TooltipPlacement = this.state.isSmallWidth ? "bottomRight" : "right";
 
         const content =
             authState === "Authenticated" ? this.renderAuthenticatedContent() : this.renderNotAuthenticatedContent();
@@ -31,7 +56,7 @@ class App extends Component<AppProps> {
             <Layout style={styles.layout}>
                 <Layout.Header style={styles.header}>
                     <div style={styles.avatarContainer}>
-                        <Tooltip title={userNameAndEmail} placement="bottomRight">
+                        <Tooltip title={userNameAndEmail} placement={avatarTooltipPlacement} autoAdjustOverflow={true}>
                             <Avatar size="small" src={avatarSrc} />
                         </Tooltip>
                     </div>
@@ -53,8 +78,21 @@ class App extends Component<AppProps> {
 
     @BindThis()
     private renderNotAuthenticatedContent(): React.ReactNode {
-        // TODO: temporary content.
-        return <h1>LOGIN PLS</h1>;
+        return (
+            <Alert
+                type="error"
+                message="Could not login"
+                description={
+                    <React.Fragment>
+                        <span>Please enter a valid Toggl API token in the settings.</span>
+                        &nbsp;
+                        <span>
+                            Click on <Icon type="setting" theme="outlined" /> top right.
+                        </span>
+                    </React.Fragment>
+                }
+            />
+        );
     }
 
     private notifyUserAuthChange(prevProps: AppProps): void {
@@ -66,6 +104,13 @@ class App extends Component<AppProps> {
                 message.error("Please enter a valid API key!");
             }
         }
+    }
+
+    @BindThis()
+    private handleWidthMediaQueryChanged(event: MediaQueryListEvent): void {
+        this.setState({
+            isSmallWidth: event.matches,
+        });
     }
 }
 

@@ -10,3 +10,9 @@ export const verticalCenterStyles: React.CSSProperties = {
     top: "50%",
     transform: "translateY(-50%)",
 };
+
+export const ellipsisText: React.CSSProperties = {
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+};
