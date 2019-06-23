@@ -1,4 +1,4 @@
-import { Alert, Avatar, Collapse, Icon, Layout, message, Spin, Tooltip } from "antd";
+import { Alert, Avatar, Collapse, Icon, Layout, message, Row, Spin, Tooltip } from "antd";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -114,7 +114,11 @@ class App extends Component<AppProps, IAppState> {
     }
 
     private renderAuthenticatingContent(): React.ReactNode {
-        return <Spin style={styles.loadingSpinner} />;
+        return (
+            <Row type="flex" align="middle">
+                <Spin style={styles.loadingSpinner} />
+            </Row>
+        );
     }
 
     private notifyUserAuthChange(prevProps: AppProps): void {
