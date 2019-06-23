@@ -1,12 +1,14 @@
-import { Alert, Avatar, Icon, Layout, message, Spin, Tooltip } from "antd";
+import { Alert, Avatar, Collapse, Icon, Layout, message, Spin, Tooltip } from "antd";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
+import { ThunkDispatch } from "redux-thunk";
 import { IApplicationState } from "../../stores/rootReducer";
 import { login, UserAction } from "../../stores/user/actions";
+import { IUserState } from "../../stores/user/reducers";
 import { BindThis } from "../../utilities/BindThis";
 import { OptionsMenu } from "../OptionsMenu";
+import { WorkspaceSelector } from "../WorkspaceSelector";
 import { styles } from "./App.styles";
 
 type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
@@ -84,8 +86,18 @@ class App extends Component<AppProps, IAppState> {
     }
 
     private renderAuthenticatedContent(): React.ReactNode {
-        // TODO: temporary content.
-        return <h1>Hello, world!</h1>;
+        // return (
+        //     <Card title="Options">
+        //         Workspace: <WorkspaceSelector />
+        //     </Card>
+        // );
+        return (
+            <Collapse>
+                <Collapse.Panel header="Options" key="1">
+                    Workspace: <WorkspaceSelector />
+                </Collapse.Panel>
+            </Collapse>
+        );
     }
 
     private renderNotAuthenticatedContent(): React.ReactNode {
@@ -140,13 +152,10 @@ function mapStateToProps(state: IApplicationState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<UserAction>) {
-    return bindActionCreators(
-        {
-            login,
-        },
-        dispatch,
-    );
+function mapDispatchToProps(dispatch: ThunkDispatch<IUserState, undefined, UserAction>) {
+    return {
+        login: () => dispatch(login()),
+    };
 }
 
 export default connect(

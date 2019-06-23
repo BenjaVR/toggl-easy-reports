@@ -20,7 +20,6 @@ export function userReducer(state = initialState, action: UserAction): IUserStat
         case "USER_LOGIN_REQUEST":
             return {
                 ...state,
-                apiKey: action.apiKey,
                 authenticationState: "Authenticating",
             };
         case "USER_LOGIN_SUCCESS":

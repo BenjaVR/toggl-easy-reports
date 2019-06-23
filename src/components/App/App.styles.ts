@@ -22,7 +22,6 @@ export const styles = createStyles({
     content: {
         padding: "35px 50px",
         backgroundColor: "white",
-        textAlign: "center",
     },
     loadingSpinner: {
         ...verticalCenterStyles,
