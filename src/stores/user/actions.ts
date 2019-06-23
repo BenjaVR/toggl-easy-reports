@@ -1,6 +1,7 @@
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
-import UsersService, { IUser } from "../../services/toggl/UsersService";
+import { User } from "../../models/User";
+import UsersService from "../../services/toggl/UsersService";
 import { selectWorkspace, updateWorkspaces, WorkspacesActionType } from "../workspaces/actions";
 import { IUserState } from "./reducers";
 
@@ -12,7 +13,7 @@ interface IUserLoginRequestAction extends Action<UserActionType> {
 
 interface IUserLoginSuccessAction extends Action<UserActionType> {
     readonly type: "USER_LOGIN_SUCCESS";
-    readonly user: IUser;
+    readonly user: User;
 }
 
 interface IUserLoginFailedAction extends Action<UserActionType> {
@@ -28,7 +29,7 @@ export function login(): ThunkAction<void, IUserState, undefined, Action<UserAct
             const user = await UsersService.getCurrentUser();
             dispatch(loginSuccess(user));
             dispatch(updateWorkspaces(user.workspaces));
-            dispatch(selectWorkspace(user.default_wid));
+            dispatch(selectWorkspace(user.defaultWorkspaceId));
         } catch {
             dispatch(loginFailed());
         }
@@ -41,7 +42,7 @@ export function loginRequest(): IUserLoginRequestAction {
     };
 }
 
-export function loginSuccess(user: IUser): IUserLoginSuccessAction {
+export function loginSuccess(user: User): IUserLoginSuccessAction {
     return {
         type: "USER_LOGIN_SUCCESS",
         user,

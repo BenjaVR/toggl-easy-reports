@@ -1,11 +1,11 @@
 import { Action } from "redux";
-import { IWorkspace } from "../../services/toggl/UsersService";
+import { Workspace } from "../../models/Workspace";
 
 export type WorkspacesActionType = "WORKSPACES_UPDATE" | "WORKSPACES_SELECT";
 
 interface IWorkspacesUpdateAction extends Action<WorkspacesActionType> {
     readonly type: "WORKSPACES_UPDATE";
-    readonly workspaces: IWorkspace[];
+    readonly workspaces: Workspace[];
 }
 
 interface IWorkspacesSelectAction extends Action<WorkspacesActionType> {
@@ -15,7 +15,7 @@ interface IWorkspacesSelectAction extends Action<WorkspacesActionType> {
 
 export type WorkspaceAction = IWorkspacesUpdateAction | IWorkspacesSelectAction;
 
-export function updateWorkspaces(workspaces: IWorkspace[]): IWorkspacesUpdateAction {
+export function updateWorkspaces(workspaces: Workspace[]): IWorkspacesUpdateAction {
     return {
         type: "WORKSPACES_UPDATE",
         workspaces,

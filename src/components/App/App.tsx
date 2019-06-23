@@ -45,10 +45,10 @@ class App extends Component<AppProps, IAppState> {
     }
 
     public render(): React.ReactNode {
-        const { userData, authState } = this.props;
-        const userNameAndEmail = userData === undefined ? "" : `${userData.fullname} (${userData.email})`;
+        const { user, authState } = this.props;
+        const userNameAndEmail = user === undefined ? "" : `${user.fullName} (${user.email})`;
 
-        const avatarSrc = userData === undefined ? undefined : userData.image_url;
+        const avatarSrc = user === undefined ? undefined : user.imageUrl;
         const avatarTooltipPlacement: TooltipPlacement = this.state.isSmallWidth ? "bottomRight" : "right";
 
         let content: React.ReactNode;
@@ -123,9 +123,9 @@ class App extends Component<AppProps, IAppState> {
 
     private notifyUserAuthChange(prevProps: AppProps): void {
         if (prevProps.authState === "Authenticating") {
-            const { authState, userData } = this.props;
-            if (authState === "Authenticated" && userData !== undefined) {
-                message.success(`Successfully logged in, ${userData.fullname}!`);
+            const { authState, user } = this.props;
+            if (authState === "Authenticated" && user !== undefined) {
+                message.success(`Successfully logged in, ${user.fullName}!`);
             } else if (authState === "NotAuthenticated") {
                 message.error("Please enter a valid API key!");
             }
@@ -146,7 +146,7 @@ class App extends Component<AppProps, IAppState> {
 
 function mapStateToProps(state: IApplicationState) {
     return {
-        userData: state.user.userData,
+        user: state.user.userData,
         authState: state.user.authenticationState,
     };
 }

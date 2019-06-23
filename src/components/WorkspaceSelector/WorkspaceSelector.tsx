@@ -2,7 +2,7 @@ import { Select } from "antd";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { IWorkspace } from "../../services/toggl/UsersService";
+import { Workspace } from "../../models/Workspace";
 import { IApplicationState } from "../../stores/rootReducer";
 import { selectWorkspace, WorkspaceAction } from "../../stores/workspaces/actions";
 import { BindThis } from "../../utilities/BindThis";
@@ -26,7 +26,7 @@ class WorkspaceSelector extends React.Component<WorkspaceSelectorProps> {
     }
 
     @BindThis()
-    private renderSelectOption(workspace: IWorkspace): React.ReactNode {
+    private renderSelectOption(workspace: Workspace): React.ReactNode {
         return (
             <Select.Option value={workspace.id} key={workspace.id}>
                 {workspace.name}

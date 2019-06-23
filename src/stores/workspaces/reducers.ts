@@ -1,8 +1,8 @@
-import { IWorkspace } from "../../services/toggl/UsersService";
+import { Workspace } from "../../models/Workspace";
 import { WorkspaceAction } from "./actions";
 
 export interface IWorkspaceState {
-    workspaces: IWorkspace[];
+    workspaces: Workspace[];
     selectedWorkspaceId: number | undefined;
 }
 

@@ -1,25 +1,31 @@
+import { User } from "../../models/User";
+import { Workspace } from "../../models/Workspace";
 import BaseTogglApiService from "./BaseTogglApiService";
 
 interface IUserResponse {
     data: IUser;
 }
 
-export interface IUser {
+interface IUser {
     email: string;
     fullname: string;
     image_url: string;
     workspaces: IWorkspace[];
-    default_wid: number; // Default workspace id.
+    default_wid: number;
 }
 
-export interface IWorkspace {
+interface IWorkspace {
     readonly id: number;
     readonly name: string;
 }
 
 export default class UsersService extends BaseTogglApiService {
-    public static async getCurrentUser(): Promise<IUser> {
+    public static async getCurrentUser(): Promise<User> {
         const userReponse = await this.fetch<IUserResponse>("/api/v8/me");
-        return userReponse.data;
+        const { data } = userReponse;
+        const workspaces = data.workspaces.map(workspace => {
+            return new Workspace(workspace.id, workspace.name);
+        });
+        return new User(data.email, data.fullname, data.image_url, data.default_wid, workspaces);
     }
 }

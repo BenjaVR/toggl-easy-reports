@@ -1,16 +1,14 @@
-import { IUser } from "../../services/toggl/UsersService";
+import { User } from "../../models/User";
 import { UserAction } from "./actions";
 
 type UserAuthenticationState = "NotAuthenticated" | "Authenticating" | "Authenticated";
 
 export interface IUserState {
-    apiKey: string | undefined;
     authenticationState: UserAuthenticationState;
-    userData: IUser | undefined;
+    userData: User | undefined;
 }
 
 const initialState: IUserState = {
-    apiKey: undefined,
     authenticationState: "NotAuthenticated",
     userData: undefined,
 };
