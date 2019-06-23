@@ -3,7 +3,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { BindThis } from "../../utilities/BindThis";
 import { ApiKeyForm } from "./ApiKeyForm";
-import { styles } from "./OptionsMenu.styles";
+import { styles } from "./SettingsMenu.styles";
 
 export interface IOptionsMenuItemProps {
     readonly onSave: (savedMessage: string) => void;
@@ -13,7 +13,7 @@ interface IOptionsMenuState {
     readonly isDropdownOpen: boolean;
 }
 
-export default class OptionsMenu extends React.Component<{}, IOptionsMenuState> {
+export default class SettingsMenu extends React.Component<{}, IOptionsMenuState> {
     private dropdownContentRef: Menu | undefined;
     private dropdownRef: Dropdown | undefined;
 

@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import ApiTokenService from "../../../services/toggl/ApiTokenService";
 import { login, UserAction } from "../../../stores/user/actions";
 import { BindThis } from "../../../utilities/BindThis";
-import { IOptionsMenuItemProps } from "../OptionsMenu";
+import { IOptionsMenuItemProps } from "../SettingsMenu";
 
 type ApiKeyFormProps = IOptionsMenuItemProps & ReturnType<typeof mapDispatchToProps>;
 

@@ -7,7 +7,7 @@ import { IApplicationState } from "../../stores/rootReducer";
 import { login, UserAction } from "../../stores/user/actions";
 import { IUserState } from "../../stores/user/reducers";
 import { BindThis } from "../../utilities/BindThis";
-import { OptionsMenu } from "../OptionsMenu";
+import { SettingsMenu } from "../SettingsMenu";
 import { WorkspaceSelector } from "../WorkspaceSelector";
 import { styles } from "./App.styles";
 
@@ -76,7 +76,7 @@ class App extends Component<AppProps, IAppState> {
                         <h1 style={styles.navbarTitle}>Toggl Easy Reports</h1>
                     </div>
                     <div style={styles.optionsContainer}>
-                        <OptionsMenu />
+                        <SettingsMenu />
                     </div>
                 </Layout.Header>
                 <Layout.Content style={styles.content}>{content}</Layout.Content>
