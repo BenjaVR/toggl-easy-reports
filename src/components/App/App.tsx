@@ -86,13 +86,8 @@ class App extends Component<AppProps, IAppState> {
     }
 
     private renderAuthenticatedContent(): React.ReactNode {
-        // return (
-        //     <Card title="Options">
-        //         Workspace: <WorkspaceSelector />
-        //     </Card>
-        // );
         return (
-            <Collapse>
+            <Collapse defaultActiveKey={["1"]}>
                 <Collapse.Panel header="Options" key="1">
                     Workspace: <WorkspaceSelector />
                 </Collapse.Panel>
