@@ -1,8 +1,10 @@
-import { Alert, Avatar, Collapse, Icon, Layout, message, Row, Spin, Tooltip } from "antd";
+import { Alert, Avatar, Collapse, DatePicker, Divider, Icon, Layout, message, Row, Spin, Tooltip } from "antd";
 import { TooltipPlacement } from "antd/lib/tooltip";
+import moment from "moment";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
+import { LocaleManager } from "../../services/locale/LocaleManager";
 import { IApplicationState } from "../../stores/rootReducer";
 import { login, UserAction } from "../../stores/user/actions";
 import { IUserState } from "../../stores/user/reducers";
@@ -86,10 +88,14 @@ class App extends Component<AppProps, IAppState> {
     }
 
     private renderAuthenticatedContent(): React.ReactNode {
+        // TODO: for now the LocaleManager is called here, but this function should be a separate component!
+        LocaleManager.updateLocale("en", 1); // TODO: hard-coded for now, should use the Toggle settings instead.
         return (
             <Collapse defaultActiveKey={["1"]}>
                 <Collapse.Panel header="Options" key="1">
                     Workspace: <WorkspaceSelector />
+                    <Divider type="vertical" />
+                    Week: <DatePicker.WeekPicker defaultValue={moment()} />
                 </Collapse.Panel>
             </Collapse>
         );
