@@ -113,11 +113,21 @@ class App extends Component<AppProps, IAppState> {
                 message="Could not login"
                 description={
                     <React.Fragment>
-                        <span>Please enter a valid Toggl API token in the settings.</span>
-                        &nbsp;
-                        <span>
-                            Click on <Icon type="setting" theme="outlined" /> top right.
-                        </span>
+                        <p>
+                            <span>Please enter a valid Toggl API token in the settings.</span>
+                            &nbsp;
+                            <span>
+                                Click on <Icon type="setting" theme="outlined" /> top right.
+                            </span>
+                        </p>
+                        <p>
+                            <span>Get your API token</span>
+                            &nbsp;
+                            <a href="https://toggl.com/app/profile" rel="noopener noreferrer" target="_blank">
+                                here
+                            </a>
+                            .
+                        </p>
                     </React.Fragment>
                 }
             />
