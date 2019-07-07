@@ -24,7 +24,7 @@ app.use(async (req: express.Request, res: express.Response) => {
         return res.status(togglResponse.status).json(togglJsonResponse);
     } catch (err) {
         return res.status(500).json({
-            proxyError: err
+            proxyError: err,
         });
     }
 });
