@@ -1,5 +1,6 @@
 import { User } from "../../models/User";
 import { Workspace } from "../../models/Workspace";
+import { FirstDayOfTheWeek } from "../locale/LocaleManager";
 import BaseTogglApiService from "./BaseTogglApiService";
 
 interface IUserResponse {
@@ -12,6 +13,8 @@ interface IUser {
     image_url: string;
     workspaces: IWorkspace[];
     default_wid: number;
+    beginning_of_week: number;
+    language: string;
 }
 
 interface IWorkspace {
@@ -26,6 +29,14 @@ export default class UsersService extends BaseTogglApiService {
         const workspaces = data.workspaces.map(workspace => {
             return new Workspace(workspace.id, workspace.name);
         });
-        return new User(data.email, data.fullname, data.image_url, data.default_wid, workspaces);
+        return new User(
+            data.email,
+            data.fullname,
+            data.image_url,
+            data.default_wid,
+            workspaces,
+            data.beginning_of_week as FirstDayOfTheWeek,
+            data.language,
+        );
     }
 }

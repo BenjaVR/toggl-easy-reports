@@ -87,9 +87,14 @@ class App extends Component<AppProps, IAppState> {
         );
     }
 
+    @BindThis()
     private renderAuthenticatedContent(): React.ReactNode {
         // TODO: for now the LocaleManager is called here, but this function should be a separate component!
-        LocaleManager.updateLocale("en", 1); // TODO: hard-coded for now, should use the Toggle settings instead.
+        if (this.props.user === undefined) {
+            return undefined;
+        }
+        const { language, firstDayOfTheWeek } = this.props.user;
+        LocaleManager.updateLocale(language, firstDayOfTheWeek);
         return (
             <Collapse defaultActiveKey={["1"]}>
                 <Collapse.Panel header="Options" key="1">

@@ -1,3 +1,4 @@
+import { FirstDayOfTheWeek } from "../services/locale/LocaleManager";
 import { Workspace } from "./Workspace";
 
 export class User {
@@ -7,5 +8,7 @@ export class User {
         public readonly imageUrl: string,
         public readonly defaultWorkspaceId: number,
         public readonly workspaces: Workspace[],
+        public readonly firstDayOfTheWeek: FirstDayOfTheWeek,
+        public readonly language: string,
     ) {}
 }
