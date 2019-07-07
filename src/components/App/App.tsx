@@ -93,8 +93,8 @@ class App extends Component<AppProps, IAppState> {
         if (this.props.user === undefined) {
             return undefined;
         }
-        const { language, firstDayOfTheWeek } = this.props.user;
-        LocaleManager.updateLocale(language, firstDayOfTheWeek);
+        const { firstDayOfTheWeek } = this.props.user;
+        LocaleManager.updateLocale(firstDayOfTheWeek);
         return (
             <Collapse defaultActiveKey={["1"]}>
                 <Collapse.Panel header="Options" key="1">

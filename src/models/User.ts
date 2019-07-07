@@ -9,6 +9,5 @@ export class User {
         public readonly defaultWorkspaceId: number,
         public readonly workspaces: Workspace[],
         public readonly firstDayOfTheWeek: FirstDayOfTheWeek,
-        public readonly language: string,
     ) {}
 }

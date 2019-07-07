@@ -14,7 +14,6 @@ interface IUser {
     workspaces: IWorkspace[];
     default_wid: number;
     beginning_of_week: number;
-    language: string;
 }
 
 interface IWorkspace {
@@ -36,7 +35,6 @@ export default class UsersService extends BaseTogglApiService {
             data.default_wid,
             workspaces,
             data.beginning_of_week as FirstDayOfTheWeek,
-            data.language,
         );
     }
 }
