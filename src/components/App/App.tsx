@@ -1,17 +1,15 @@
-import { Avatar, Collapse, DatePicker, Divider, Layout, message, Tooltip } from "antd";
+import { Avatar, Layout, message, Tooltip } from "antd";
 import { TooltipPlacement } from "antd/lib/tooltip";
-import moment from "moment";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { LocaleManager } from "../../services/locale/LocaleManager";
 import { IApplicationState } from "../../stores/rootReducer";
 import { login, UserAction } from "../../stores/user/actions";
 import { IUserState } from "../../stores/user/reducers";
 import { BindThis } from "../../utilities/BindThis";
 import { SettingsMenu } from "../SettingsMenu";
-import { WorkspaceSelector } from "../WorkspaceSelector";
 import { styles } from "./App.styles";
+import { AuthenticatedContent } from "./AuthenticatedContent";
 import { AuthenticatingContent } from "./AuthenticatingContent";
 import { NotAuthenticatedContent } from "./NotAuthenticatedContent";
 
@@ -58,7 +56,8 @@ class App extends Component<AppProps, IAppState> {
         let content: React.ReactNode;
         switch (authState) {
             case "Authenticated":
-                content = this.renderAuthenticatedContent();
+                // User prop should always be available here!
+                content = this.props.user !== undefined ? <AuthenticatedContent user={this.props.user} /> : undefined;
                 break;
             case "NotAuthenticated":
                 content = <NotAuthenticatedContent />;
@@ -86,25 +85,6 @@ class App extends Component<AppProps, IAppState> {
                 <Layout.Content style={styles.content}>{content}</Layout.Content>
                 <Layout.Footer style={styles.footer}>FOOTER</Layout.Footer>
             </Layout>
-        );
-    }
-
-    @BindThis()
-    private renderAuthenticatedContent(): React.ReactNode {
-        // TODO: for now the LocaleManager is called here, but this function should be a separate component!
-        if (this.props.user === undefined) {
-            return undefined;
-        }
-        const { firstDayOfTheWeek } = this.props.user;
-        LocaleManager.updateLocale(firstDayOfTheWeek);
-        return (
-            <Collapse defaultActiveKey={["1"]}>
-                <Collapse.Panel header="Options" key="1">
-                    Workspace: <WorkspaceSelector />
-                    <Divider type="vertical" />
-                    Week: <DatePicker.WeekPicker defaultValue={moment()} />
-                </Collapse.Panel>
-            </Collapse>
         );
     }
 
