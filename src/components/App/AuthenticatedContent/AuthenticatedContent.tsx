@@ -10,7 +10,9 @@ interface IAuthenticatedContentProps {
 }
 
 export default class AuthenticatedContent extends React.Component<IAuthenticatedContentProps> {
-    public componentDidMount(): void {
+    constructor(props: IAuthenticatedContentProps) {
+        super(props);
+
         LocaleManager.updateLocale(this.props.user.firstDayOfTheWeek);
     }
 
