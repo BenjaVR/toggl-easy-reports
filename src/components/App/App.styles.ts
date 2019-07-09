@@ -23,11 +23,6 @@ export const styles = createStyles({
         padding: "35px 50px",
         backgroundColor: "white",
     },
-    loadingSpinner: {
-        ...verticalCenterStyles,
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-    },
     footer: {
         textAlign: "center",
     },

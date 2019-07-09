@@ -1,4 +1,4 @@
-import { Avatar, Collapse, DatePicker, Divider, Layout, message, Row, Spin, Tooltip } from "antd";
+import { Avatar, Collapse, DatePicker, Divider, Layout, message, Tooltip } from "antd";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import moment from "moment";
 import React, { Component } from "react";
@@ -12,6 +12,7 @@ import { BindThis } from "../../utilities/BindThis";
 import { SettingsMenu } from "../SettingsMenu";
 import { WorkspaceSelector } from "../WorkspaceSelector";
 import { styles } from "./App.styles";
+import { AuthenticatingContent } from "./AuthenticatingContent";
 import { NotAuthenticatedContent } from "./NotAuthenticatedContent";
 
 type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
@@ -63,7 +64,7 @@ class App extends Component<AppProps, IAppState> {
                 content = <NotAuthenticatedContent />;
                 break;
             case "Authenticating":
-                content = this.renderAuthenticatingContent();
+                content = <AuthenticatingContent />;
                 break;
         }
 
@@ -104,14 +105,6 @@ class App extends Component<AppProps, IAppState> {
                     Week: <DatePicker.WeekPicker defaultValue={moment()} />
                 </Collapse.Panel>
             </Collapse>
-        );
-    }
-
-    private renderAuthenticatingContent(): React.ReactNode {
-        return (
-            <Row type="flex" align="middle">
-                <Spin style={styles.loadingSpinner} />
-            </Row>
         );
     }
 
