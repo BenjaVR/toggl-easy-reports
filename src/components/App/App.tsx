@@ -1,4 +1,4 @@
-import { Alert, Avatar, Collapse, DatePicker, Divider, Icon, Layout, message, Row, Spin, Tooltip } from "antd";
+import { Avatar, Collapse, DatePicker, Divider, Layout, message, Row, Spin, Tooltip } from "antd";
 import { TooltipPlacement } from "antd/lib/tooltip";
 import moment from "moment";
 import React, { Component } from "react";
@@ -12,6 +12,7 @@ import { BindThis } from "../../utilities/BindThis";
 import { SettingsMenu } from "../SettingsMenu";
 import { WorkspaceSelector } from "../WorkspaceSelector";
 import { styles } from "./App.styles";
+import { NotAuthenticatedContent } from "./NotAuthenticatedContent";
 
 type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
@@ -59,7 +60,7 @@ class App extends Component<AppProps, IAppState> {
                 content = this.renderAuthenticatedContent();
                 break;
             case "NotAuthenticated":
-                content = this.renderNotAuthenticatedContent();
+                content = <NotAuthenticatedContent />;
                 break;
             case "Authenticating":
                 content = this.renderAuthenticatingContent();
@@ -103,34 +104,6 @@ class App extends Component<AppProps, IAppState> {
                     Week: <DatePicker.WeekPicker defaultValue={moment()} />
                 </Collapse.Panel>
             </Collapse>
-        );
-    }
-
-    private renderNotAuthenticatedContent(): React.ReactNode {
-        return (
-            <Alert
-                type="error"
-                message="Could not login"
-                description={
-                    <React.Fragment>
-                        <p>
-                            <span>Please enter a valid Toggl API token in the settings.</span>
-                            &nbsp;
-                            <span>
-                                Click on <Icon type="setting" theme="outlined" /> top right.
-                            </span>
-                        </p>
-                        <p>
-                            <span>Get your API token</span>
-                            &nbsp;
-                            <a href="https://toggl.com/app/profile" rel="noopener noreferrer" target="_blank">
-                                here
-                            </a>
-                            .
-                        </p>
-                    </React.Fragment>
-                }
-            />
         );
     }
 
