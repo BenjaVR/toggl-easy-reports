@@ -1,23 +1,8 @@
-import { createStyles, ellipsisText, verticalCenterStyles } from "../../utilities/styles";
-
-const appBarMargin = 25;
+import { createStyles } from "../../utilities/styles";
 
 export const styles = createStyles({
     layout: {
         height: "100vh",
-    },
-    avatarContainer: {
-        left: appBarMargin,
-        ...verticalCenterStyles,
-    },
-    navbarCenter: {
-        textAlign: "center",
-    },
-    navbarTitle: {
-        color: "white",
-        textTransform: "uppercase",
-        padding: "0 10px",
-        ...ellipsisText,
     },
     content: {
         padding: "35px 50px",
@@ -34,10 +19,5 @@ export const styles = createStyles({
         background: "#fff",
         minHeight: 100,
         padding: 24,
-    },
-    optionsContainer: {
-        marginTop: 5,
-        right: appBarMargin,
-        ...verticalCenterStyles,
     },
 });

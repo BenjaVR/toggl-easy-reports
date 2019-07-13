@@ -1,5 +1,4 @@
-import { Avatar, Layout, message, Tooltip } from "antd";
-import { TooltipPlacement } from "antd/lib/tooltip";
+import { Layout, message } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
@@ -7,10 +6,11 @@ import { IApplicationState } from "../../stores/rootReducer";
 import { login, UserAction } from "../../stores/user/actions";
 import { IUserState } from "../../stores/user/reducers";
 import { BindThis } from "../../utilities/BindThis";
-import { SettingsMenu } from "../SettingsMenu";
 import { styles } from "./App.styles";
 import { AuthenticatedContent } from "./AuthenticatedContent";
 import { AuthenticatingContent } from "./AuthenticatingContent";
+import { HeaderContent } from "./HeaderContent";
+import { HeaderContentAvatarTooltipPlacement } from "./HeaderContent/HeaderContent";
 import { NotAuthenticatedContent } from "./NotAuthenticatedContent";
 
 type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
@@ -48,10 +48,10 @@ class App extends Component<AppProps, IAppState> {
 
     public render(): React.ReactNode {
         const { user, authState } = this.props;
-        const userNameAndEmail = user === undefined ? "" : `${user.fullName} (${user.email})`;
 
-        const avatarSrc = user === undefined ? undefined : user.imageUrl;
-        const avatarTooltipPlacement: TooltipPlacement = this.state.isSmallWidth ? "bottomRight" : "right";
+        const avatarTooltipPlacement: HeaderContentAvatarTooltipPlacement = this.state.isSmallWidth
+            ? "bottomRight"
+            : "right";
 
         let content: React.ReactNode;
         switch (authState) {
@@ -70,17 +70,7 @@ class App extends Component<AppProps, IAppState> {
         return (
             <Layout style={styles.layout}>
                 <Layout.Header style={styles.header}>
-                    <div style={styles.avatarContainer}>
-                        <Tooltip title={userNameAndEmail} placement={avatarTooltipPlacement} autoAdjustOverflow={true}>
-                            <Avatar size="small" src={avatarSrc} />
-                        </Tooltip>
-                    </div>
-                    <div style={styles.navbarCenter}>
-                        <h1 style={styles.navbarTitle}>Toggl Easy Reports</h1>
-                    </div>
-                    <div style={styles.optionsContainer}>
-                        <SettingsMenu />
-                    </div>
+                    <HeaderContent user={user} avatarTooltipPlacement={avatarTooltipPlacement} />
                 </Layout.Header>
                 <Layout.Content style={styles.content}>{content}</Layout.Content>
                 <Layout.Footer style={styles.footer}>FOOTER</Layout.Footer>
