@@ -8,6 +8,7 @@ import { IUserState } from "../../stores/user/reducers";
 import { styles } from "./App.styles";
 import { AuthenticatedContent } from "./AuthenticatedContent";
 import { AuthenticatingContent } from "./AuthenticatingContent";
+import { FooterContent } from "./FooterContent";
 import { HeaderContent } from "./HeaderContent";
 import { NotAuthenticatedContent } from "./NotAuthenticatedContent";
 
@@ -46,7 +47,9 @@ class App extends Component<AppProps> {
                         <HeaderContent user={user} />
                     </Layout.Header>
                     <Layout.Content style={styles.content}>{content}</Layout.Content>
-                    <Layout.Footer style={styles.footer}>FOOTER</Layout.Footer>
+                    <Layout.Footer style={styles.footer}>
+                        <FooterContent />
+                    </Layout.Footer>
                 </Layout>
             </React.Fragment>
         );
