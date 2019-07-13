@@ -15,7 +15,7 @@ export class LocaleManager {
         moment.updateLocale("en", {
             week: {
                 dow: firstDayOfWeek,
-                doy: 1,
+                doy: moment.localeData().firstDayOfYear(),
             },
         });
     }

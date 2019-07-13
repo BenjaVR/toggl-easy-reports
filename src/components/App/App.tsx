@@ -1,45 +1,22 @@
-import { Alert, Avatar, Collapse, DatePicker, Divider, Icon, Layout, message, Row, Spin, Tooltip } from "antd";
-import { TooltipPlacement } from "antd/lib/tooltip";
-import moment from "moment";
+import { Layout, message } from "antd";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { LocaleManager } from "../../services/locale/LocaleManager";
 import { IApplicationState } from "../../stores/rootReducer";
 import { login, UserAction } from "../../stores/user/actions";
 import { IUserState } from "../../stores/user/reducers";
-import { BindThis } from "../../utilities/BindThis";
-import { SettingsMenu } from "../SettingsMenu";
-import { WorkspaceSelector } from "../WorkspaceSelector";
 import { styles } from "./App.styles";
+import { AuthenticatedContent } from "./AuthenticatedContent";
+import { AuthenticatingContent } from "./AuthenticatingContent";
+import { FooterContent } from "./FooterContent";
+import { HeaderContent } from "./HeaderContent";
+import { NotAuthenticatedContent } from "./NotAuthenticatedContent";
 
 type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-interface IAppState {
-    isSmallWidth: boolean;
-}
-
-class App extends Component<AppProps, IAppState> {
-    private readonly widthMediaQuery: MediaQueryList;
-
-    constructor(props: AppProps) {
-        super(props);
-
-        this.state = {
-            isSmallWidth: false,
-        };
-
-        this.widthMediaQuery = window.matchMedia("(max-width: 500px)");
-    }
-
+class App extends Component<AppProps> {
     public componentDidMount(): void {
         this.props.login();
-
-        this.widthMediaQuery.addEventListener("change", this.handleWidthMediaQueryChanged);
-    }
-
-    public componentWillUnmount(): void {
-        this.widthMediaQuery.removeEventListener("change", this.handleWidthMediaQueryChanged);
     }
 
     public componentDidUpdate(prevProps: AppProps): void {
@@ -48,97 +25,33 @@ class App extends Component<AppProps, IAppState> {
 
     public render(): React.ReactNode {
         const { user, authState } = this.props;
-        const userNameAndEmail = user === undefined ? "" : `${user.fullName} (${user.email})`;
-
-        const avatarSrc = user === undefined ? undefined : user.imageUrl;
-        const avatarTooltipPlacement: TooltipPlacement = this.state.isSmallWidth ? "bottomRight" : "right";
 
         let content: React.ReactNode;
         switch (authState) {
             case "Authenticated":
-                content = this.renderAuthenticatedContent();
+                // User prop should always be available here!
+                content = this.props.user !== undefined ? <AuthenticatedContent user={this.props.user} /> : undefined;
                 break;
             case "NotAuthenticated":
-                content = this.renderNotAuthenticatedContent();
+                content = <NotAuthenticatedContent />;
                 break;
             case "Authenticating":
-                content = this.renderAuthenticatingContent();
+                content = <AuthenticatingContent />;
                 break;
         }
 
         return (
-            <Layout style={styles.layout}>
-                <Layout.Header style={styles.header}>
-                    <div style={styles.avatarContainer}>
-                        <Tooltip title={userNameAndEmail} placement={avatarTooltipPlacement} autoAdjustOverflow={true}>
-                            <Avatar size="small" src={avatarSrc} />
-                        </Tooltip>
-                    </div>
-                    <div style={styles.navbarCenter}>
-                        <h1 style={styles.navbarTitle}>Toggl Easy Reports</h1>
-                    </div>
-                    <div style={styles.optionsContainer}>
-                        <SettingsMenu />
-                    </div>
-                </Layout.Header>
-                <Layout.Content style={styles.content}>{content}</Layout.Content>
-                <Layout.Footer style={styles.footer}>FOOTER</Layout.Footer>
-            </Layout>
-        );
-    }
-
-    @BindThis()
-    private renderAuthenticatedContent(): React.ReactNode {
-        // TODO: for now the LocaleManager is called here, but this function should be a separate component!
-        if (this.props.user === undefined) {
-            return undefined;
-        }
-        const { firstDayOfTheWeek } = this.props.user;
-        LocaleManager.updateLocale(firstDayOfTheWeek);
-        return (
-            <Collapse defaultActiveKey={["1"]}>
-                <Collapse.Panel header="Options" key="1">
-                    Workspace: <WorkspaceSelector />
-                    <Divider type="vertical" />
-                    Week: <DatePicker.WeekPicker defaultValue={moment()} />
-                </Collapse.Panel>
-            </Collapse>
-        );
-    }
-
-    private renderNotAuthenticatedContent(): React.ReactNode {
-        return (
-            <Alert
-                type="error"
-                message="Could not login"
-                description={
-                    <React.Fragment>
-                        <p>
-                            <span>Please enter a valid Toggl API token in the settings.</span>
-                            &nbsp;
-                            <span>
-                                Click on <Icon type="setting" theme="outlined" /> top right.
-                            </span>
-                        </p>
-                        <p>
-                            <span>Get your API token</span>
-                            &nbsp;
-                            <a href="https://toggl.com/app/profile" rel="noopener noreferrer" target="_blank">
-                                here
-                            </a>
-                            .
-                        </p>
-                    </React.Fragment>
-                }
-            />
-        );
-    }
-
-    private renderAuthenticatingContent(): React.ReactNode {
-        return (
-            <Row type="flex" align="middle">
-                <Spin style={styles.loadingSpinner} />
-            </Row>
+            <React.Fragment>
+                <Layout style={styles.layout}>
+                    <Layout.Header style={styles.header}>
+                        <HeaderContent user={user} />
+                    </Layout.Header>
+                    <Layout.Content style={styles.content}>{content}</Layout.Content>
+                    <Layout.Footer style={styles.footer}>
+                        <FooterContent />
+                    </Layout.Footer>
+                </Layout>
+            </React.Fragment>
         );
     }
 
@@ -155,13 +68,6 @@ class App extends Component<AppProps, IAppState> {
                 message.loading("Logging in...");
             }
         }
-    }
-
-    @BindThis()
-    private handleWidthMediaQueryChanged(event: MediaQueryListEvent): void {
-        this.setState({
-            isSmallWidth: event.matches,
-        });
     }
 }
 
