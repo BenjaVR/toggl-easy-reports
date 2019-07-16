@@ -6,7 +6,9 @@ import { User } from "../../../models/User";
 import { LocaleManager } from "../../../services/locale/LocaleManager";
 import { ReportsService } from "../../../services/toggl/ReportsService";
 import { BindThis } from "../../../utilities/BindThis";
+import { TogglReport } from "../../TogglReport";
 import { WorkspaceSelector } from "../../WorkspaceSelector";
+import { styles } from "./AuthenticatedContent.styles";
 
 interface IAuthenticatedContentProps {
     readonly user: User;
@@ -38,27 +40,34 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
     }
 
     public render(): React.ReactNode {
-        const { selectedWorkspaceId, selectedDate } = this.state;
+        const { selectedWorkspaceId, selectedDate, report } = this.state;
         const { workspaces } = this.props.user;
 
         return (
-            <Collapse defaultActiveKey={["1"]}>
-                <Collapse.Panel header="Options" key="1">
-                    Workspace:&nbsp;
-                    <WorkspaceSelector
-                        workspaces={workspaces}
-                        selectedWorkspaceId={selectedWorkspaceId}
-                        onChange={this.handleWorkspaceSelectorChanged}
-                    />
-                    <Divider type="vertical" />
-                    Week:&nbsp;
-                    <DatePicker.WeekPicker
-                        value={selectedDate}
-                        onChange={this.handleWeekPickerChanged}
-                        allowClear={false}
-                    />
-                </Collapse.Panel>
-            </Collapse>
+            <React.Fragment>
+                <Collapse defaultActiveKey={["1"]}>
+                    <Collapse.Panel header="Options" key="1">
+                        Workspace:&nbsp;
+                        <WorkspaceSelector
+                            workspaces={workspaces}
+                            selectedWorkspaceId={selectedWorkspaceId}
+                            onChange={this.handleWorkspaceSelectorChanged}
+                        />
+                        <Divider type="vertical" />
+                        Week:&nbsp;
+                        <DatePicker.WeekPicker
+                            value={selectedDate}
+                            onChange={this.handleWeekPickerChanged}
+                            allowClear={false}
+                        />
+                    </Collapse.Panel>
+                </Collapse>
+                {report && (
+                    <div style={styles.reportContainer}>
+                        <TogglReport report={report} />
+                    </div>
+                )}
+            </React.Fragment>
         );
     }
 
