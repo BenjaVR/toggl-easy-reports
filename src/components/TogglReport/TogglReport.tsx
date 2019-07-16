@@ -1,6 +1,8 @@
 import { Card, Col, Row } from "antd";
+import * as moment from "moment";
 import * as React from "react";
 import { Report } from "../../models/Report";
+import { padLeft } from "../../utilities/padLeft";
 import { TogglReportProject } from "./TogglReportProject";
 
 interface ITogglReportProps {
@@ -21,8 +23,13 @@ const TogglReport: React.FunctionComponent<ITogglReportProps> = ({ report }) => 
     );
 };
 
-function getTogglReportTitle(report: Report): string {
-    return `Total time: ${report.totalTimeInHours} hours`;
+function getTogglReportTitle(report: Report): React.ReactNode {
+    const duration = moment.duration(report.totalTimeInMilliseconds - 600000, "milliseconds");
+    return (
+        <span>
+            Total time: <b>{padLeft(duration.hours(), 2)}</b>h<b>{padLeft(duration.minutes(), 2)}</b>
+        </span>
+    );
 }
 
 export default TogglReport;
