@@ -1,3 +1,4 @@
+import { millisecondsToHours } from "../utilities/TimeConverter";
 import { TimeEntry } from "./TimeEntry";
 
 export class ReportProject {
@@ -9,4 +10,8 @@ export class ReportProject {
         public readonly hexColor: string,
         public readonly timeEntries: TimeEntry[],
     ) {}
+
+    public get timeInHours(): number {
+        return millisecondsToHours(this.timeInMilliseconds);
+    }
 }

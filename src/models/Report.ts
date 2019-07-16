@@ -1,11 +1,10 @@
-import * as moment from "moment";
-import { TimeEntry } from "./TimeEntry";
+import { millisecondsToHours } from "../utilities/TimeConverter";
+import { ReportProject } from "./ReportProject";
 
 export class Report {
-    constructor(public readonly totalTimeInMilliseconds: number, public readonly timeEntries: TimeEntry[]) {}
+    constructor(public readonly totalTimeInMilliseconds: number, public readonly projects: ReportProject[]) {}
 
     public get totalTimeInHours(): number {
-        const timeInHours = moment.duration(this.totalTimeInMilliseconds).asHours();
-        return Math.round(timeInHours * 100) / 100;
+        return millisecondsToHours(this.totalTimeInMilliseconds);
     }
 }
