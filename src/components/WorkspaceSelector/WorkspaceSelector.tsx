@@ -1,26 +1,28 @@
 import { Select } from "antd";
 import * as React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import { Workspace } from "../../models/Workspace";
-import { IApplicationState } from "../../stores/rootReducer";
-import { selectWorkspace, WorkspaceAction } from "../../stores/workspaces/actions";
 import { BindThis } from "../../utilities/BindThis";
 import { styles } from "./WorkspaceSelector.styles";
 
-type WorkspaceSelectorProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+interface IWorkspaceSelectorProps {
+    readonly onChange: (newWorkspaceId: number | undefined) => void;
+    readonly selectedWorkspaceId: number | undefined;
+    readonly workspaces: Workspace[];
+}
 
-class WorkspaceSelector extends React.Component<WorkspaceSelectorProps> {
+class WorkspaceSelector extends React.Component<IWorkspaceSelectorProps> {
     public render(): React.ReactNode {
+        const { selectedWorkspaceId, workspaces } = this.props;
+
         return (
             <Select
                 style={styles.select}
                 placeholder="Select a Toggl workspace"
                 defaultActiveFirstOption={false}
-                value={this.props.selectedWorkspaceId}
+                value={selectedWorkspaceId}
                 onChange={this.handleOptionChange}
             >
-                {this.props.workspaces.map(this.renderSelectOption)}
+                {workspaces.map(this.renderSelectOption)}
             </Select>
         );
     }
@@ -36,24 +38,10 @@ class WorkspaceSelector extends React.Component<WorkspaceSelectorProps> {
 
     @BindThis()
     private handleOptionChange(newWorkspaceId: number | undefined): void {
-        this.props.selectWorkspace(newWorkspaceId);
+        if (this.props.onChange) {
+            this.props.onChange(newWorkspaceId);
+        }
     }
 }
 
-function mapStateToProps(state: IApplicationState) {
-    return {
-        workspaces: state.workspaces.workspaces,
-        selectedWorkspaceId: state.workspaces.selectedWorkspaceId,
-    };
-}
-
-function mapDispatchToProps(dispatch: Dispatch<WorkspaceAction>) {
-    return {
-        selectWorkspace: (workspaceId: number | undefined) => dispatch(selectWorkspace(workspaceId)),
-    };
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(WorkspaceSelector);
+export default WorkspaceSelector;
