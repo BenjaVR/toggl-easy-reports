@@ -24,10 +24,12 @@ const TogglReport: React.FunctionComponent<ITogglReportProps> = ({ report }) => 
 };
 
 function getTogglReportTitle(report: Report): React.ReactNode {
-    const duration = moment.duration(report.totalTimeInMilliseconds - 600000, "milliseconds");
+    const duration = moment.duration(report.totalTimeInMilliseconds, "milliseconds");
+    const hours = Math.floor(duration.asHours());
+    const minutes = Math.floor(duration.asMinutes()) - hours * 60;
     return (
         <span>
-            Total time: <b>{padLeft(duration.hours(), 2)}</b>h<b>{padLeft(duration.minutes(), 2)}</b>
+            Total time: <b>{padLeft(hours, 2)}</b>h<b>{padLeft(minutes, 2)}</b>
         </span>
     );
 }
