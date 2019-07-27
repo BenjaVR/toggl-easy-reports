@@ -16,7 +16,11 @@ const TogglReportProject: React.FunctionComponent<ITogglReportProjectProps> = ({
             extra={getDescription(project)}
             hoverable={true}
         >
-            TODO
+            <ul>
+                {project.timeEntries.map(timeEntry => (
+                    <li key={timeEntry.title}>{timeEntry.title}</li>
+                ))}
+            </ul>
         </Card>
     );
 };
