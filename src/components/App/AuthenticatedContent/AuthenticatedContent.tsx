@@ -26,13 +26,14 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
     constructor(props: AuthenticatedContentProps) {
         super(props);
 
+        // Should be set before the creation of the moment object in this.state.selectedDate.
+        LocaleManager.updateLocale(props.user.firstDayOfTheWeek);
+
         this.state = {
             selectedWorkspaceId: props.user.defaultWorkspaceId,
             selectedDate: moment(),
             report: undefined,
         };
-
-        LocaleManager.updateLocale(props.user.firstDayOfTheWeek);
     }
 
     public componentDidMount(): void {
