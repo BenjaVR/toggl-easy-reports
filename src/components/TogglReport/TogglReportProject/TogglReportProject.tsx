@@ -1,4 +1,4 @@
-import { Card, Tooltip } from "antd";
+import { Card } from "antd";
 import * as React from "react";
 import { ReportProject } from "../../../models/ReportProject";
 import { styles } from "./TogglReportProject.styles";
@@ -24,9 +24,7 @@ const TogglReportProject: React.FunctionComponent<ITogglReportProjectProps> = ({
 function getProjectTitle(project: ReportProject): React.ReactNode {
     return (
         <div>
-            <Tooltip title={project.title}>
-                <span style={styles.fatProjectTitleLine}>{project.title}</span>
-            </Tooltip>
+            <span style={styles.fatProjectTitleLine}>{project.title}</span>
             <span style={styles.projectTitleLine}>{project.client}</span>
         </div>
     );

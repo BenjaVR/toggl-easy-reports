@@ -14,7 +14,7 @@ const TogglReport: React.FunctionComponent<ITogglReportProps> = ({ report }) => 
         <Card title={getTogglReportTitle(report)}>
             <Row gutter={8}>
                 {report.projects.map(project => (
-                    <Col key={project.id} xs={24} md={12} lg={8} xxl={6}>
+                    <Col key={project.id} sm={24} lg={12} xxl={8}>
                         <TogglReportProject project={project} />
                     </Col>
                 ))}
