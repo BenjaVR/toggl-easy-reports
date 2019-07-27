@@ -1,15 +1,23 @@
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Spin } from "antd";
 import * as moment from "moment";
 import * as React from "react";
 import { Report } from "../../models/Report";
 import { padLeft } from "../../utilities/padLeft";
+import { styles } from "./TogglReport.styles";
 import { TogglReportProject } from "./TogglReportProject";
 
 interface ITogglReportProps {
-    readonly report: Report;
+    readonly report: Report | undefined;
 }
 
 const TogglReport: React.FunctionComponent<ITogglReportProps> = ({ report }) => {
+    if (report === undefined) {
+        return (
+            <Card title="Loading report...">
+                <Spin style={styles.loadingSpinner} />
+            </Card>
+        );
+    }
     return (
         <Card title={getTogglReportTitle(report)}>
             <Row gutter={8}>

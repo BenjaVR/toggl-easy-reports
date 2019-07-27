@@ -63,11 +63,9 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
                         />
                     </Collapse.Panel>
                 </Collapse>
-                {report && (
-                    <div style={styles.reportContainer}>
-                        <TogglReport report={report} />
-                    </div>
-                )}
+                <div style={styles.reportContainer}>
+                    <TogglReport report={report} />
+                </div>
             </React.Fragment>
         );
     }
@@ -92,6 +90,7 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
             return;
         }
 
+        this.setState({ report: undefined });
         ReportsService.getSummaryReport(selectedWorkspaceId, selectedDate)
             .then(report => {
                 this.setState({ report });
