@@ -1,6 +1,12 @@
-import { createStyles } from "../../../utilities/styles";
+import { CSSProperties } from "react";
+import { createStyles, ellipsisText } from "../../../utilities/styles";
 
 const cardMargin = 4;
+
+const projectTitleLineStyles: CSSProperties = {
+    ...ellipsisText,
+    display: "block",
+};
 
 export const styles = createStyles({
     projectCard: {
@@ -8,6 +14,10 @@ export const styles = createStyles({
         marginTop: cardMargin,
     },
     projectTitleLine: {
-        display: "block",
+        ...projectTitleLineStyles,
+    },
+    fatProjectTitleLine: {
+        ...projectTitleLineStyles,
+        fontWeight: "bold",
     },
 });
