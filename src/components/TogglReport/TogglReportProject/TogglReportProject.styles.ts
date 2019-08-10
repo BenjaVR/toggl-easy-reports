@@ -20,4 +20,7 @@ export const styles = createStyles({
         ...projectTitleLineStyles,
         fontWeight: "bold",
     },
+    timeEntriesSummary: {
+        whiteSpace: "pre-wrap",
+    },
 });

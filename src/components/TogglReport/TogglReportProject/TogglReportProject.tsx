@@ -7,25 +7,23 @@ interface ITogglReportProjectProps {
     readonly project: ReportProject;
 }
 
-const TogglReportProject: React.FunctionComponent<ITogglReportProjectProps> = ({ project }) => {
+const TogglReportProject: React.FC<ITogglReportProjectProps> = ({ project }) => {
     return (
         <Card
             style={styles.projectCard}
             type="inner"
-            title={getProjectTitle(project)}
-            extra={getDescription(project)}
+            title={renderProjectTitle(project)}
+            extra={renderProjectDescription(project)}
             hoverable={true}
         >
-            <ul>
-                {project.timeEntries.map(timeEntry => (
-                    <li key={timeEntry.title}>{timeEntry.title}</li>
-                ))}
-            </ul>
+            <span style={styles.timeEntriesSummary}>
+                {project.timeEntriesSummary}
+            </span>
         </Card>
     );
 };
 
-function getProjectTitle(project: ReportProject): React.ReactNode {
+function renderProjectTitle(project: ReportProject): React.ReactNode {
     return (
         <div>
             <span style={styles.fatProjectTitleLine}>{project.title}</span>
@@ -34,7 +32,7 @@ function getProjectTitle(project: ReportProject): React.ReactNode {
     );
 }
 
-function getDescription(project: ReportProject): React.ReactNode {
+function renderProjectDescription(project: ReportProject): React.ReactNode {
     return (
         <span>
             <b>{project.timeInHours}</b> hours
