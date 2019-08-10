@@ -1,4 +1,4 @@
-import { Card } from "antd";
+import { Card, message } from "antd";
 import * as React from "react";
 import { ReportProject } from "../../../models/ReportProject";
 import { styles } from "./TogglReportProject.styles";
@@ -8,6 +8,18 @@ interface ITogglReportProjectProps {
 }
 
 const TogglReportProject: React.FC<ITogglReportProjectProps> = ({ project }) => {
+    const handleCardClick = React.useCallback(
+        async () => {
+            try {
+                await navigator.clipboard.writeText(project.timeEntriesSummary);
+                message.success("Task content is copied to the clipboard!");
+            } catch (error) {
+                message.error(`Could not copy task content to the clipboard: ${error}`);
+            }
+        },
+        [project.timeEntriesSummary],
+    );
+
     return (
         <Card
             style={styles.projectCard}
@@ -15,6 +27,7 @@ const TogglReportProject: React.FC<ITogglReportProjectProps> = ({ project }) => 
             title={renderProjectTitle(project)}
             extra={renderProjectDescription(project)}
             hoverable={true}
+            onClick={handleCardClick}
         >
             <span style={styles.timeEntriesSummary}>
                 {project.timeEntriesSummary}
