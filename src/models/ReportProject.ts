@@ -15,7 +15,7 @@ export class ReportProject {
             if (summaryString !== "") {
                 summaryString += "\n";
             }
-            summaryString += ` - ${entry.parsedEntryTitle}`;
+            summaryString += entry.parsedEntryTitle;
         });
 
         const timeEntriesWithGroup = this.timeEntries
