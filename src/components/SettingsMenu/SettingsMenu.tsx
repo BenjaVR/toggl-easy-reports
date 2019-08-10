@@ -36,7 +36,7 @@ export default class SettingsMenu extends React.Component<{}, IOptionsMenuState>
     public render(): React.ReactNode {
         return (
             <Dropdown
-                ref={ref => (this.dropdownRef = ref ? ref : undefined)}
+                ref={(ref) => (this.dropdownRef = ref ? ref : undefined)}
                 overlay={this.renderMenu()}
                 visible={this.state.isDropdownOpen}
                 overlayStyle={styles.dropdownOverlay}
@@ -49,7 +49,7 @@ export default class SettingsMenu extends React.Component<{}, IOptionsMenuState>
     @BindThis()
     private renderMenu(): React.ReactNode {
         return (
-            <Menu style={styles.menu} ref={ref => (this.dropdownContentRef = ref ? ref : undefined)}>
+            <Menu style={styles.menu} ref={(ref) => (this.dropdownContentRef = ref ? ref : undefined)}>
                 <ApiKeyForm onSave={this.handleSave} />
             </Menu>
         );

@@ -35,8 +35,8 @@ export default abstract class BaseTogglApiService {
             path = `${this.BASE_URL}${path}`;
         }
 
-        if (!("user-agent" in queryString)) {
-            queryString["user-agent"] = this.USER_AGENT;
+        if (!("user_agent" in queryString)) {
+            queryString.user_agent = this.USER_AGENT;
         }
 
         return `${path}?${qs.stringify(queryString)}`;
