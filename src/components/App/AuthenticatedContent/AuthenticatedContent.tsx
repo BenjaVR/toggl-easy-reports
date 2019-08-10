@@ -92,7 +92,7 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
 
         this.setState({ report: undefined });
         ReportsService.getSummaryReport(selectedWorkspaceId, selectedDate)
-            .then(report => {
+            .then((report) => {
                 this.setState({ report });
             })
             .catch(() => {

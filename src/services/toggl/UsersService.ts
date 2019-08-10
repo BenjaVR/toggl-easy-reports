@@ -25,7 +25,7 @@ export default class UsersService extends BaseTogglApiService {
     public static async getCurrentUser(): Promise<User> {
         const userReponse = await this.fetch<IUserResponse>("/api/v8/me");
         const { data } = userReponse;
-        const workspaces = data.workspaces.map(workspace => {
+        const workspaces = data.workspaces.map((workspace) => {
             return new Workspace(workspace.id, workspace.name);
         });
         return new User(

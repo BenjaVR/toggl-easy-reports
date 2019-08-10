@@ -2,6 +2,7 @@ import { Card, Col, Row, Spin } from "antd";
 import * as moment from "moment";
 import * as React from "react";
 import { Report } from "../../models/Report";
+import { ReportProject } from "../../models/ReportProject";
 import { padLeft } from "../../utilities/padLeft";
 import { styles } from "./TogglReport.styles";
 import { TogglReportProject } from "./TogglReportProject";
@@ -19,19 +20,15 @@ const TogglReport: React.FunctionComponent<ITogglReportProps> = ({ report }) => 
         );
     }
     return (
-        <Card title={getTogglReportTitle(report)}>
+        <Card title={renderTogglReportTitle(report)}>
             <Row gutter={8}>
-                {report.projects.map(project => (
-                    <Col key={project.id} sm={24} lg={12} xxl={8}>
-                        <TogglReportProject project={project} />
-                    </Col>
-                ))}
+                {report.projects.map(renderTogglReportColumn)}
             </Row>
         </Card>
     );
 };
 
-function getTogglReportTitle(report: Report): React.ReactNode {
+function renderTogglReportTitle(report: Report): React.ReactNode {
     const duration = moment.duration(report.totalTimeInMilliseconds, "milliseconds");
     const hours = Math.floor(duration.asHours());
     const minutes = Math.floor(duration.asMinutes()) - hours * 60;
@@ -39,6 +36,14 @@ function getTogglReportTitle(report: Report): React.ReactNode {
         <span>
             Total time: <b>{padLeft(hours, 2)}</b>h<b>{padLeft(minutes, 2)}</b>
         </span>
+    );
+}
+
+function renderTogglReportColumn(project: ReportProject): React.ReactNode {
+    return (
+        <Col key={project.id} sm={24} lg={12} xxl={8}>
+            <TogglReportProject project={project} />
+        </Col>
     );
 }
 

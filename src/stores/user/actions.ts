@@ -22,7 +22,7 @@ interface IUserLoginFailedAction extends Action<UserActionType> {
 export type UserAction = IUserLoginRequestAction | IUserLoginSuccessAction | IUserLoginFailedAction;
 
 export function login(): ThunkAction<void, IUserState, undefined, Action<UserActionType>> {
-    return async dispatch => {
+    return async (dispatch) => {
         dispatch(loginRequest());
         try {
             const user = await UsersService.getCurrentUser();
