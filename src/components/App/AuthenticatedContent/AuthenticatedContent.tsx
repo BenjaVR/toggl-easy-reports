@@ -18,7 +18,7 @@ type AuthenticatedContentProps = IAuthenticatedContentProps;
 
 interface IAuthenticatedContentState {
     readonly selectedWorkspaceId: number;
-    readonly selectedDate: moment.Moment;
+    readonly selectedDate: moment.Moment | undefined;
     readonly report: Report | undefined;
 }
 
@@ -79,8 +79,13 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
     }
 
     @BindThis()
-    private handleWeekPickerChanged(newDate: moment.Moment): void {
-        this.setState({ selectedDate: newDate }, () => this.fetchReport());
+    private handleWeekPickerChanged(newDate: moment.Moment | null): void {
+        this.setState(
+            {
+                selectedDate: newDate ? newDate : undefined,
+            },
+            () => this.fetchReport(),
+        );
     }
 
     private fetchReport(): void {
@@ -91,13 +96,15 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
         }
 
         this.setState({ report: undefined });
-        ReportsService.getSummaryReport(selectedWorkspaceId, selectedDate)
-            .then((report) => {
-                this.setState({ report });
-            })
-            .catch(() => {
-                message.error("Could not fetch the Toggl report.");
-            });
+        if (selectedDate !== undefined) {
+            ReportsService.getSummaryReport(selectedWorkspaceId, selectedDate)
+                .then((report) => {
+                    this.setState({ report });
+                })
+                .catch(() => {
+                    message.error("Could not fetch the Toggl report.");
+                });
+        }
     }
 }
 

@@ -7,7 +7,7 @@ export default class NotAuthenticatedContent extends React.Component {
             <Alert
                 type="error"
                 message="Could not login"
-                description={this.renderDescription}
+                description={this.renderDescription()}
             />
         );
     }
@@ -19,8 +19,8 @@ export default class NotAuthenticatedContent extends React.Component {
                     <span>Please enter a valid Toggl API token in the settings.</span>
                     &nbsp;
                     <span>
-                                Click on <Icon type="setting" theme="outlined" /> top right.
-                            </span>
+                        Click on <Icon type="setting" theme="outlined" /> top right.
+                    </span>
                 </p>
                 <p>
                     <span>Get your API token</span>
