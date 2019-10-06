@@ -1,0 +1,32 @@
+name: Publish Gatsby website
+
+on:
+  repository_dispatch:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: './themes/u2be'
+      
+      - name: Build Gatsby website
+        run: npm run build
+        working-directory: './themes/u2be'
+
+      - name: Publish gatsby website to GitHub Pages
+        run: npm run publish-website
+        working-directory: './themes/u2be'
