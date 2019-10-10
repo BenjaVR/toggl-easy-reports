@@ -10,6 +10,7 @@ interface ITogglReportProjectProps {
 const TogglReportProject: React.FC<ITogglReportProjectProps> = ({ project }) => {
     const handleCardClick = React.useCallback(
         async () => {
+            message.destroy();
             try {
                 await navigator.clipboard.writeText(project.timeEntriesSummary);
                 message.success("Task content is copied to the clipboard!");
