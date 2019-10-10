@@ -45,7 +45,7 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
         const { workspaces } = this.props.user;
 
         return (
-            <React.Fragment>
+            <div style={styles.contentContainer}>
                 <Collapse defaultActiveKey={["1"]}>
                     <Collapse.Panel header="Options" key="1">
                         Workspace:&nbsp;
@@ -66,7 +66,7 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
                 <div style={styles.reportContainer}>
                     <TogglReport report={report} />
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 
