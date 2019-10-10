@@ -7,6 +7,7 @@ export const styles = createStyles({
     content: {
         padding: "35px 50px",
         backgroundColor: "white",
+        overflowY: "auto",
     },
     footer: {
         textAlign: "center",
