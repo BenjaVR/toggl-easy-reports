@@ -23,4 +23,4 @@ jobs:
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        run: gh-pages -d build -r 'https://${{ secrets.GITHUB_TOKEN }}@github.com/$ {{ github.repository }}'
+        run: ./node_modules/.bin/gh-pages -d build -r 'https://${{ secrets.GITHUB_TOKEN }}@github.com/$ {{ github.repository }}'
