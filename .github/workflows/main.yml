@@ -6,7 +6,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
@@ -15,11 +15,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10.x'
-          
+
       - name: Install dependencies
         run: npm install
-        
-      - name: Build and publish to GitHub Pages
-        run: npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        run: gh-pages -d build -r 'https://${{ secrets.GITHUB_TOKEN }}@github.com/$ {{ github.repository }}'
