@@ -1,29 +1,27 @@
-import { Card, Col, Row, Spin } from "antd";
+import { Card, Spin } from "antd";
 import * as moment from "moment";
 import * as React from "react";
 import { Report } from "../../models/Report";
 import { ReportProject } from "../../models/ReportProject";
 import { padLeft } from "../../utilities/padLeft";
-import { styles } from "./TogglReport.styles";
+import styles from "./TogglReport.module.scss";
 import { TogglReportProject } from "./TogglReportProject";
 
 interface ITogglReportProps {
     readonly report: Report | undefined;
 }
 
-const TogglReport: React.FunctionComponent<ITogglReportProps> = ({ report }) => {
+const TogglReport: React.FC<ITogglReportProps> = ({ report }) => {
     if (report === undefined) {
         return (
             <Card title="Loading report...">
-                <Spin style={styles.loadingSpinner} />
+                <Spin className={styles.loadingSpinner} />
             </Card>
         );
     }
     return (
-        <Card title={renderTogglReportTitle(report)}>
-            <Row gutter={8}>
-                {report.projects.map(renderTogglReportColumn)}
-            </Row>
+        <Card title={renderTogglReportTitle(report)} className={styles.projectsGrid}>
+            {report.projects.map(renderTogglReportColumn)}
         </Card>
     );
 };
@@ -41,9 +39,9 @@ function renderTogglReportTitle(report: Report): React.ReactNode {
 
 function renderTogglReportColumn(project: ReportProject): React.ReactNode {
     return (
-        <Col key={project.id} sm={24} lg={12} xxl={8}>
+        <div key={project.id} className={styles.project}>
             <TogglReportProject project={project} />
-        </Col>
+        </div>
     );
 }
 
