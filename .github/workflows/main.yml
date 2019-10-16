@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set Git username
+        run: git config --global user.name "GitHub Action for Pages"
+
       - name: Checkout code
         uses: actions/checkout@v1
 
