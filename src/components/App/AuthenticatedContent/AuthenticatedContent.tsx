@@ -8,7 +8,7 @@ import { ReportsService } from "../../../services/toggl/ReportsService";
 import { BindThis } from "../../../utilities/BindThis";
 import { TogglReport } from "../../TogglReport";
 import { WorkspaceSelector } from "../../WorkspaceSelector";
-import { styles } from "./AuthenticatedContent.styles";
+import styles from "./AuthenticatedContent.module.scss";
 
 interface IAuthenticatedContentProps {
     readonly user: User;
@@ -52,25 +52,33 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
             : undefined;
 
         return (
-            <div style={styles.contentContainer}>
+            <div className={styles.contentContainer}>
                 <Collapse defaultActiveKey={optionsDefaultActiveKey} onChange={this.handleOptionsCollapseChanged}>
                     <Collapse.Panel header="Options" key={this.optionsCollapseKey}>
-                        Workspace:&nbsp;
-                        <WorkspaceSelector
-                            workspaces={workspaces}
-                            selectedWorkspaceId={selectedWorkspaceId}
-                            onChange={this.handleWorkspaceSelectorChanged}
-                        />
-                        <Divider type="vertical" />
-                        Week:&nbsp;
-                        <DatePicker.WeekPicker
-                            value={selectedDate}
-                            onChange={this.handleWeekPickerChanged}
-                            allowClear={false}
-                        />
+                        <div className={styles.optionsPanelContainer}>
+                            <div className={styles.inputContainer}>
+                                <span className={styles.inputLabel}>Workspace:</span>
+                                <WorkspaceSelector
+                                    className={styles.inputField}
+                                    workspaces={workspaces}
+                                    selectedWorkspaceId={selectedWorkspaceId}
+                                    onChange={this.handleWorkspaceSelectorChanged}
+                                />
+                            </div>
+                            <Divider className={styles.optionsDivider} type="vertical" />
+                            <div className={styles.inputContainer}>
+                                <span className={styles.inputLabel}>Week:</span>
+                                <DatePicker.WeekPicker
+                                    className={styles.inputField}
+                                    value={selectedDate}
+                                    onChange={this.handleWeekPickerChanged}
+                                    allowClear={false}
+                                />
+                            </div>
+                        </div>
                     </Collapse.Panel>
                 </Collapse>
-                <div style={styles.reportContainer}>
+                <div className={styles.reportContainer}>
                     <TogglReport report={report} />
                 </div>
             </div>

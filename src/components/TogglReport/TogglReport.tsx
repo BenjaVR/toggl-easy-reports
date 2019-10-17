@@ -11,7 +11,7 @@ interface ITogglReportProps {
     readonly report: Report | undefined;
 }
 
-const TogglReport: React.FunctionComponent<ITogglReportProps> = ({ report }) => {
+const TogglReport: React.FC<ITogglReportProps> = ({ report }) => {
     if (report === undefined) {
         return (
             <Card title="Loading report...">
