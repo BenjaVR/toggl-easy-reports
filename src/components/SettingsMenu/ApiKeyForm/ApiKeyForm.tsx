@@ -1,71 +1,45 @@
 import { Button, Input } from "antd";
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
-import ApiTokenService from "../../../services/toggl/ApiTokenService";
-import { login, UserAction } from "../../../stores/user/actions";
-import { BindThis } from "../../../utilities/BindThis";
+import React, { useState } from "react";
+import { useSettings } from "../../../context/SettingsContext";
+import { useUserState } from "../../../context/UserContext";
 import { IOptionsMenuItemProps } from "../SettingsMenu";
 
-type ApiKeyFormProps = IOptionsMenuItemProps & ReturnType<typeof mapDispatchToProps>;
+type ApiKeyFormProps = IOptionsMenuItemProps;
 
-interface IApiKeyFormState {
-    readonly apiKey: string;
-}
+export const ApiKeyForm: React.FC<ApiKeyFormProps> = (props) => {
+    const { onSave } = props;
+    const settings = useSettings();
+    const { login } = useUserState();
 
-class ApiKeyForm extends React.Component<ApiKeyFormProps, IApiKeyFormState> {
-    constructor(props: ApiKeyFormProps) {
-        super(props);
+    const [apiToken, setApiToken] = useState<string>(settings.togglApiToken);
 
-        this.state = {
-            apiKey: ApiTokenService.getToken(),
-        };
-    }
+    const handleChange = (value: React.ChangeEvent<HTMLInputElement>): void => {
+        setApiToken(value.currentTarget.value);
+    };
 
-    public render() {
-        // We use Input.Search here, because it is the only clean way to add a button to an input field.
-        return (
-            <Input.Search
-                value={this.state.apiKey}
-                onChange={this.onChange}
-                addonBefore={"Toggl API Key"}
-                enterButton={this.renderEnterButton()}
-                onSearch={this.onSave}
-            />
-        );
-    }
+    const handleSave = () => {
+        settings.dispatch({
+            type: "SET_TOGGL_API_TOKEN",
+            token: apiToken,
+        });
+        onSave("API key saved!");
+        login();
+    };
 
-    private renderEnterButton(): React.ReactNode {
-        return (
-            <Button type="primary" ghost={true}>
-                Update
-            </Button>
-        );
-    }
-
-    @BindThis()
-    private onChange(value: React.ChangeEvent<HTMLInputElement>): void {
-        this.setState({ apiKey: value.currentTarget.value });
-    }
-
-    @BindThis()
-    private onSave(): void {
-        ApiTokenService.setToken(this.state.apiKey);
-        this.props.onSave("API key saved!");
-        this.props.login(); // Do login action every time the key has changed.
-    }
-}
-
-function mapDispatchToProps(dispatch: Dispatch<UserAction>) {
-    return bindActionCreators(
-        {
-            login,
-        },
-        dispatch,
+    const enterButton = (
+        <Button type="primary" ghost={true}>
+            Update
+        </Button>
     );
-}
 
-export default connect(
-    undefined,
-    mapDispatchToProps,
-)(ApiKeyForm);
+    // We use Input.Search here, because it is the only clean way to add a button to an input field.
+    return (
+        <Input.Search
+            value={apiToken}
+            onChange={handleChange}
+            addonBefore={"Toggl API Key"}
+            enterButton={enterButton}
+            onSearch={handleSave}
+        />
+    );
+};

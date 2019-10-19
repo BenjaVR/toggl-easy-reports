@@ -2,7 +2,7 @@ import { Dropdown, Icon, Menu, message } from "antd";
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { BindThis } from "../../utilities/BindThis";
-import { ApiKeyForm } from "./ApiKeyForm";
+import { ApiKeyForm } from "./ApiKeyForm/ApiKeyForm";
 import { styles } from "./SettingsMenu.styles";
 
 export interface IOptionsMenuItemProps {

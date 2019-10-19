@@ -1,90 +1,62 @@
 import { Layout, message } from "antd";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import { IApplicationState } from "../../stores/rootReducer";
-import { login, UserAction } from "../../stores/user/actions";
-import { IUserState } from "../../stores/user/reducers";
-import { styles } from "./App.styles";
+import React, { useEffect } from "react";
+import { useUserState } from "../../context/UserContext";
+import styles from "./App.module.scss";
 import { AuthenticatedContent } from "./AuthenticatedContent";
 import { AuthenticatingContent } from "./AuthenticatingContent";
 import { FooterContent } from "./FooterContent";
 import { HeaderContent } from "./HeaderContent";
 import { NotAuthenticatedContent } from "./NotAuthenticatedContent";
 
-type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+const App: React.FC = () => {
+    const { userState, login } = useUserState();
 
-class App extends Component<AppProps> {
-    public componentDidMount(): void {
-        this.props.login();
-    }
+    useEffect(() => {
+        login();
+    }, [login]);
 
-    public componentDidUpdate(prevProps: AppProps): void {
-        this.notifyUserAuthChange(prevProps);
-    }
-
-    public render(): React.ReactNode {
-        const { user, authState } = this.props;
-
-        let content: React.ReactNode;
-        switch (authState) {
-            case "Authenticated":
-                // User prop should always be available here!
-                content = this.props.user !== undefined ? <AuthenticatedContent user={this.props.user} /> : undefined;
+    useEffect(() => {
+        switch (userState.authState) {
+            case "LOGGED_IN":
+                message.success(`Successfully logged in, ${userState.user.fullName}!`);
                 break;
-            case "NotAuthenticated":
-                content = <NotAuthenticatedContent />;
+            case "LOGGED_OUT":
+                message.success("Successfully logged out!");
                 break;
-            case "Authenticating":
-                content = <AuthenticatingContent />;
-                break;
-        }
-
-        return (
-            <React.Fragment>
-                <Layout style={styles.layout}>
-                    <Layout.Header style={styles.header}>
-                        <HeaderContent user={user} />
-                    </Layout.Header>
-                    <Layout.Content style={styles.content}>{content}</Layout.Content>
-                    <Layout.Footer style={styles.footer}>
-                        <FooterContent />
-                    </Layout.Footer>
-                </Layout>
-            </React.Fragment>
-        );
-    }
-
-    private notifyUserAuthChange(prevProps: AppProps): void {
-        if (prevProps.authState === "Authenticating") {
-            const { authState, user } = this.props;
-            if (authState === "Authenticated" && user !== undefined) {
-                message.success(`Successfully logged in, ${user.fullName}!`);
-            } else if (authState === "NotAuthenticated") {
-                message.error("Please enter a valid API key!");
-            }
-        } else {
-            if (this.props.authState === "Authenticating") {
+            case "LOGGING_IN":
                 message.loading("Logging in...");
-            }
+                break;
+            case "LOGIN_FAILED":
+                message.error("Please enter a valid API key!");
+                break;
         }
+    }, [userState]);
+
+    let content: React.ReactNode;
+    switch (userState.authState) {
+        case "LOGGED_IN":
+            content = <AuthenticatedContent user={userState.user} />;
+            break;
+        case "LOGIN_FAILED":
+        case "LOGGED_OUT":
+            content = <NotAuthenticatedContent />;
+            break;
+        case "LOGGING_IN":
+            content = <AuthenticatingContent />;
+            break;
     }
-}
 
-function mapStateToProps(state: IApplicationState) {
-    return {
-        user: state.user.userData,
-        authState: state.user.authenticationState,
-    };
-}
+    return (
+        <Layout className={styles.layout}>
+            <Layout.Header className={styles.header}>
+                <HeaderContent user={userState.user} />
+            </Layout.Header>
+            <Layout.Content className={styles.content}>{content}</Layout.Content>
+            <Layout.Footer className={styles.footer}>
+                <FooterContent />
+            </Layout.Footer>
+        </Layout>
+    );
+};
 
-function mapDispatchToProps(dispatch: ThunkDispatch<IUserState, undefined, UserAction>) {
-    return {
-        login: () => dispatch(login()),
-    };
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(App);
+export default App;

@@ -2,11 +2,11 @@ import { message } from "antd";
 import "antd/dist/antd.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
 import { App } from "./components/App";
+import { SettingsProvider } from "./context/SettingsContext";
+import { UserProvider } from "./context/UserContext";
 import "./index.scss";
 import "./polyfills";
-import initializeStore from "./stores/initializeStore";
 
 // Ant design notification messages.
 message.config({
@@ -14,14 +14,13 @@ message.config({
     top: 45,
 });
 
-// Redux store.
-const store = initializeStore();
-
 ReactDOM.render(
     (
-        <Provider store={store}>
-            <App />
-        </Provider>
+        <SettingsProvider>
+            <UserProvider>
+                <App />
+            </UserProvider>
+        </SettingsProvider>
     ),
     document.getElementById("root"),
 );

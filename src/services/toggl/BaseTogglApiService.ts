@@ -1,5 +1,5 @@
 import qs from "qs";
-import ApiTokenService from "./ApiTokenService";
+import SettingsRepository from "../SettingsRepository";
 
 interface IQueryString {
     [key: string]: string;
@@ -10,7 +10,7 @@ export default abstract class BaseTogglApiService {
     private static USER_AGENT: string = "https://github.com/BenjaVR/toggl-easy-report";
 
     protected static async fetch<TResponse>(urlPath: string, queryString: IQueryString = {}): Promise<TResponse> {
-        const apiKey = await ApiTokenService.getToken();
+        const apiKey = SettingsRepository.togglApiToken;
         const url = this.buildUrl(urlPath, queryString);
         const requestInit: RequestInit = {
             headers: {
