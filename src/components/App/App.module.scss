@@ -1,0 +1,24 @@
+.layout {
+    height: 100vh;
+}
+
+.header {
+    height: 58px;
+    position: relative;
+}
+
+.content {
+    padding: 35px 50px;
+    background-color: white;
+    overflow-y: auto;
+}
+
+.innerContent {
+    background: white;
+    min-height: 100%;
+    padding: 24px;
+}
+
+.footer {
+    text-align: center;
+}

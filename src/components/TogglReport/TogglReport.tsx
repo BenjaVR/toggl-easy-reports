@@ -1,5 +1,5 @@
 import { Card, Spin } from "antd";
-import * as moment from "moment";
+import moment from "moment";
 import * as React from "react";
 import { Report } from "../../models/Report";
 import { ReportProject } from "../../models/ReportProject";
@@ -11,7 +11,9 @@ interface ITogglReportProps {
     readonly report: Report | undefined;
 }
 
-const TogglReport: React.FC<ITogglReportProps> = ({ report }) => {
+const TogglReport: React.FC<ITogglReportProps> = (props) => {
+    const { report } = props;
+
     if (report === undefined) {
         return (
             <Card title="Loading report...">

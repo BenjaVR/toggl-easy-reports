@@ -8,7 +8,7 @@ import { ReportsService } from "../../../services/toggl/ReportsService";
 import { BindThis } from "../../../utilities/BindThis";
 import { TogglReport } from "../../TogglReport";
 import { WorkspaceSelector } from "../../WorkspaceSelector";
-import { styles } from "./AuthenticatedContent.styles";
+import styles from "./AuthenticatedContent.module.scss";
 
 interface IAuthenticatedContentProps {
     readonly user: User;
@@ -23,6 +23,9 @@ interface IAuthenticatedContentState {
 }
 
 class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IAuthenticatedContentState> {
+    private readonly localStorageKeyIsOptionsToggleOpen = "OPTION_IS_OPTIONS_TOGGLE_OPEN";
+    private readonly optionsCollapseKey = "OPTIONS_COLLAPSE_KEY";
+
     constructor(props: AuthenticatedContentProps) {
         super(props);
 
@@ -44,30 +47,50 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
         const { selectedWorkspaceId, selectedDate, report } = this.state;
         const { workspaces } = this.props.user;
 
+        const optionsDefaultActiveKey = this.shouldOptionsBeOpenOnLoad()
+            ? this.optionsCollapseKey
+            : undefined;
+
         return (
-            <div style={styles.contentContainer}>
-                <Collapse defaultActiveKey={["1"]}>
-                    <Collapse.Panel header="Options" key="1">
-                        Workspace:&nbsp;
-                        <WorkspaceSelector
-                            workspaces={workspaces}
-                            selectedWorkspaceId={selectedWorkspaceId}
-                            onChange={this.handleWorkspaceSelectorChanged}
-                        />
-                        <Divider type="vertical" />
-                        Week:&nbsp;
-                        <DatePicker.WeekPicker
-                            value={selectedDate}
-                            onChange={this.handleWeekPickerChanged}
-                            allowClear={false}
-                        />
+            <div className={styles.contentContainer}>
+                <Collapse defaultActiveKey={optionsDefaultActiveKey} onChange={this.handleOptionsCollapseChanged}>
+                    <Collapse.Panel header="Options" key={this.optionsCollapseKey}>
+                        <div className={styles.optionsPanelContainer}>
+                            <div className={styles.inputContainer}>
+                                <span className={styles.inputLabel}>Workspace:</span>
+                                <WorkspaceSelector
+                                    className={styles.inputField}
+                                    workspaces={workspaces}
+                                    selectedWorkspaceId={selectedWorkspaceId}
+                                    onChange={this.handleWorkspaceSelectorChanged}
+                                />
+                            </div>
+                            <Divider className={styles.optionsDivider} type="vertical" />
+                            <div className={styles.inputContainer}>
+                                <span className={styles.inputLabel}>Week:</span>
+                                <DatePicker.WeekPicker
+                                    className={styles.inputField}
+                                    value={selectedDate}
+                                    onChange={this.handleWeekPickerChanged}
+                                    allowClear={false}
+                                />
+                            </div>
+                        </div>
                     </Collapse.Panel>
                 </Collapse>
-                <div style={styles.reportContainer}>
+                <div className={styles.reportContainer}>
                     <TogglReport report={report} />
                 </div>
             </div>
         );
+    }
+
+    @BindThis()
+    private handleOptionsCollapseChanged(key: string | string[]): void {
+        if (key instanceof Array && key.length > 0) {
+            key = key[0];
+        }
+        localStorage.setItem(this.localStorageKeyIsOptionsToggleOpen, JSON.stringify(key === this.optionsCollapseKey));
     }
 
     @BindThis()
@@ -105,6 +128,11 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
                     message.error("Could not fetch the Toggl report.");
                 });
         }
+    }
+
+    private shouldOptionsBeOpenOnLoad(): boolean {
+        const localStorageValue = localStorage.getItem(this.localStorageKeyIsOptionsToggleOpen);
+        return localStorageValue === null || JSON.parse(localStorageValue) === true;
     }
 }
 

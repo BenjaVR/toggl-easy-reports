@@ -1,47 +1,49 @@
 import { Select } from "antd";
 import * as React from "react";
+import { useCallback } from "react";
 import { Workspace } from "../../models/Workspace";
-import { BindThis } from "../../utilities/BindThis";
 import { styles } from "./WorkspaceSelector.styles";
 
 interface IWorkspaceSelectorProps {
     readonly onChange: (newWorkspaceId: number | undefined) => void;
     readonly selectedWorkspaceId: number | undefined;
     readonly workspaces: Workspace[];
+    readonly className?: string;
 }
 
-class WorkspaceSelector extends React.Component<IWorkspaceSelectorProps> {
-    public render(): React.ReactNode {
-        const { selectedWorkspaceId, workspaces } = this.props;
+const WorkspaceSelector: React.FC<IWorkspaceSelectorProps> = (props) => {
+    const { onChange, className, workspaces, selectedWorkspaceId } = props;
 
-        return (
-            <Select
-                style={styles.select}
-                placeholder="Select a Toggl workspace"
-                defaultActiveFirstOption={false}
-                value={selectedWorkspaceId}
-                onChange={this.handleOptionChange}
-            >
-                {workspaces.map(this.renderSelectOption)}
-            </Select>
-        );
-    }
-
-    @BindThis()
-    private renderSelectOption(workspace: Workspace): React.ReactNode {
-        return (
-            <Select.Option value={workspace.id} key={workspace.id}>
-                {workspace.name}
-            </Select.Option>
-        );
-    }
-
-    @BindThis()
-    private handleOptionChange(newWorkspaceId: number | undefined): void {
-        if (this.props.onChange) {
-            this.props.onChange(newWorkspaceId);
+    const handleOptionChange = useCallback((workspaceId: number | undefined) => {
+        if (onChange) {
+            onChange(workspaceId);
         }
-    }
+    }, [onChange]);
+
+    return (
+        <Select
+            className={className}
+            style={styles.select}
+            placeholder="Select a Toggl workspace"
+            defaultActiveFirstOption={false}
+            value={selectedWorkspaceId}
+            onChange={handleOptionChange}
+        >
+            {workspaces.map(renderWorkspace)}
+        </Select>
+    );
+};
+
+function renderWorkspace(workspace: Workspace): React.ReactNode {
+    return (
+        <Select.Option value={workspace.id} key={workspace.id}>
+            {workspace.name}
+        </Select.Option>
+    );
 }
+
+WorkspaceSelector.defaultProps = {
+    className: "",
+};
 
 export default WorkspaceSelector;

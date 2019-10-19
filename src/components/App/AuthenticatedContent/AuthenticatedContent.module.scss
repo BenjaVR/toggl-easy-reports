@@ -1,0 +1,43 @@
+@mixin onSmallScreens() {
+    @media (max-width: 700px) {
+        @content;
+    }
+}
+
+.contentContainer {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.reportContainer {
+    margin-top: 35px;
+}
+
+.optionsPanelContainer {
+    $breakpoint: 700px;
+
+    .optionsDivider {
+        @include onSmallScreens() {
+            display: none;
+        }
+    }
+
+    .inputContainer {
+        display: inline-block;
+        margin: 4px 0;
+
+        @include onSmallScreens() {
+            width: 100%;
+        }
+
+        .inputLabel {
+            margin-right: 8px;
+        }
+
+        .inputField {
+            @include onSmallScreens() {
+                width: 100%;
+            }
+        }
+    }
+}
