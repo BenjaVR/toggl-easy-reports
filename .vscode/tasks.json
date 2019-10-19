@@ -1,17 +1,27 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "npm",
-            "script": "start",
-            "problemMatcher": [],
-            "isBackground": true,
+            "label": "run web & proxy",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "dependsOn": ["proxy npm start", "web npm start"],
+            "dependsOrder": "parallel"
+        },
+        {
+            "label": "web npm start",
+            "type": "npm",
+            "script": "start",
+            "problemMatcher": []
+        },
+        {
+            "label": "proxy npm start",
+            "type": "npm",
+            "script": "start",
+            "path": "proxy/",
+            "problemMatcher": []
         }
     ]
 }
