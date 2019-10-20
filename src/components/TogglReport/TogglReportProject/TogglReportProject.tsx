@@ -1,6 +1,7 @@
 import { Card, message } from "antd";
 import * as React from "react";
 import { ReportProject } from "../../../models/ReportProject";
+import { millisecondsToHours } from "../../../utilities/TimeConverter";
 import { styles } from "./TogglReportProject.styles";
 
 interface ITogglReportProjectProps {
@@ -49,7 +50,7 @@ function renderProjectTitle(project: ReportProject): React.ReactNode {
 function renderProjectDescription(project: ReportProject): React.ReactNode {
     return (
         <span>
-            <b>{project.timeInHours}</b> hours
+            <b>{millisecondsToHours(project.timeInMilliseconds)}</b> hours
         </span>
     );
 }
