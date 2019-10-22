@@ -1,7 +1,7 @@
 import moment from "moment";
 import { ReportProject } from "../models/ReportProject";
 
-interface IRoundedTimeEntry {
+export interface IRoundedProjectDuration {
     readonly reportProject: ReportProject;
     readonly roundedMinutes: number;
 }
@@ -9,7 +9,7 @@ interface IRoundedTimeEntry {
 export function roundReportProjectsDownToMinutes(
     reportProjects: ReportProject[],
     roundMinutes: number,
-): IRoundedTimeEntry[] {
+): IRoundedProjectDuration[] {
 
     if (roundMinutes === 0) {
         return reportProjects.map((project) => {
@@ -21,7 +21,7 @@ export function roundReportProjectsDownToMinutes(
     }
 
     const roundMilliseconds = roundMinutes * 1000 * 60;
-    const roundedTimeEntries: IRoundedTimeEntry[] = [];
+    const roundedTimeEntries: IRoundedProjectDuration[] = [];
     let remainderMilliseconds: number = 0;
 
     reportProjects.forEach((reportProject) => {

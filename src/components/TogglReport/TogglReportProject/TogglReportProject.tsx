@@ -1,14 +1,17 @@
 import { Card, message } from "antd";
+import moment from "moment";
 import * as React from "react";
 import { ReportProject } from "../../../models/ReportProject";
-import { millisecondsToHours } from "../../../utilities/TimeConverter";
 import { styles } from "./TogglReportProject.styles";
 
 interface ITogglReportProjectProps {
     readonly project: ReportProject;
+    readonly projectDurationInMinutes: number;
 }
 
-const TogglReportProject: React.FC<ITogglReportProjectProps> = ({ project }) => {
+const TogglReportProject: React.FC<ITogglReportProjectProps> = (props) => {
+    const { project, projectDurationInMinutes } = props;
+
     const handleCardClick = React.useCallback(
         async () => {
             message.destroy();
@@ -27,7 +30,7 @@ const TogglReportProject: React.FC<ITogglReportProjectProps> = ({ project }) => 
             style={styles.projectCard}
             type="inner"
             title={renderProjectTitle(project)}
-            extra={renderProjectDescription(project)}
+            extra={renderProjectDescription(projectDurationInMinutes)}
             hoverable={true}
             onClick={handleCardClick}
         >
@@ -47,10 +50,10 @@ function renderProjectTitle(project: ReportProject): React.ReactNode {
     );
 }
 
-function renderProjectDescription(project: ReportProject): React.ReactNode {
+function renderProjectDescription(durationInMinutes: number): React.ReactNode {
     return (
         <span>
-            <b>{millisecondsToHours(project.timeInMilliseconds)}</b> hours
+            <b>{moment.duration().add(durationInMinutes, "minutes").asHours().toFixed(2)}</b> hours
         </span>
     );
 }
