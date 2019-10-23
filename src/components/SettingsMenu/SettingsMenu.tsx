@@ -1,4 +1,4 @@
-import { Dropdown, Icon, Menu, message } from "antd";
+import { Button, Divider, Dropdown, Icon, Menu, message, Popconfirm } from "antd";
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { BindThis } from "../../utilities/BindThis";
@@ -53,6 +53,22 @@ export default class SettingsMenu extends React.Component<{}, IOptionsMenuState>
             <Menu className={styles.menu} ref={(ref) => (this.dropdownContentRef = ref ? ref : undefined)}>
                 <TogglApiTokenFormItem onSave={this.handleSave} />
                 <RoundDurationMinutesFormItem onSave={this.handleSave} />
+
+                <div className={styles.restoreButtonContainer}>
+                    <Divider />
+                    <Popconfirm
+                        title="Are you sure you want to reset all settings?"
+                        // onConfirm={} TODO: use settings dispatch!
+                        overlayClassName={styles.restoreButtonPopoverOverlay}
+                    >
+                        <Button
+                            type="danger"
+                            ghost={true}
+                        >
+                            Restore defaults
+                        </Button>
+                    </Popconfirm>
+                </div>
             </Menu>
         );
     }

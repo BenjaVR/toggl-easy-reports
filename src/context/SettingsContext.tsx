@@ -7,11 +7,15 @@ interface ISettingsState {
 }
 
 type SettingsAction =
+    | { type: "RESET" }
     | { type: "SET_TOGGL_API_TOKEN"; token: string }
     | { type: "SET_ROUND_PROJECT_DURATIONS_DOWN_TO_MINUTES"; minutes: number };
 
 function settingsReducer(state: ISettingsState, action: SettingsAction): ISettingsState {
     switch (action.type) {
+        case "RESET":
+            SettingsRepository.reset();
+            return getInitialState();
         case "SET_TOGGL_API_TOKEN":
             SettingsRepository.togglApiToken = action.token;
             return { ...state, togglApiToken: action.token };
