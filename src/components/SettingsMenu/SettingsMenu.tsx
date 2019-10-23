@@ -2,7 +2,7 @@ import { Dropdown, Icon, Menu, message } from "antd";
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { BindThis } from "../../utilities/BindThis";
-import { ApiKeyForm } from "./FormItems/ApiKeyForm";
+import { TogglApiTokenForm } from "./FormItems/TogglApiTokenForm";
 import styles from "./SettingsMenu.module.scss";
 
 export interface IOptionsMenuItemProps {
@@ -50,7 +50,7 @@ export class SettingsMenu extends React.Component<{}, IOptionsMenuState> {
     private renderMenu(): React.ReactNode {
         return (
             <Menu className={styles.menu} ref={(ref) => (this.dropdownContentRef = ref ? ref : undefined)}>
-                <ApiKeyForm onSave={this.handleSave} />
+                <TogglApiTokenForm onSave={this.handleSave} />
             </Menu>
         );
     }

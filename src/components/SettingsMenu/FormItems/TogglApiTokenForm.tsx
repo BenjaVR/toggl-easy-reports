@@ -4,9 +4,9 @@ import { useSettings } from "../../../context/SettingsContext";
 import { useUserState } from "../../../context/UserContext";
 import { IOptionsMenuItemProps } from "../SettingsMenu";
 
-type ApiKeyFormProps = IOptionsMenuItemProps;
+type TogglApiTokenFormProps = IOptionsMenuItemProps;
 
-export const ApiKeyForm: React.FC<ApiKeyFormProps> = (props) => {
+export const TogglApiTokenForm: React.FC<TogglApiTokenFormProps> = (props) => {
     const { onSave } = props;
     const settings = useSettings();
     const { login } = useUserState();
