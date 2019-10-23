@@ -14,7 +14,7 @@ interface IOptionsMenuState {
     readonly isDropdownOpen: boolean;
 }
 
-export class SettingsMenu extends React.Component<{}, IOptionsMenuState> {
+export default class SettingsMenu extends React.Component<{}, IOptionsMenuState> {
     private dropdownContentRef: Menu | undefined;
     private dropdownRef: Dropdown | undefined;
 
