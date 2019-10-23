@@ -4,7 +4,7 @@ import * as React from "react";
 import { User } from "../../../models/User";
 import { BindThis } from "../../../utilities/BindThis";
 import { MediaQuery } from "../../MediaQuery";
-import { SettingsMenu } from "../../SettingsMenu";
+import { SettingsMenu } from "../../SettingsMenu/SettingsMenu";
 import { styles } from "./HeaderContent.styles";
 
 interface IHeaderContentProps {
