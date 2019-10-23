@@ -2,8 +2,9 @@ import { Dropdown, Icon, Menu, message } from "antd";
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { BindThis } from "../../utilities/BindThis";
-import { ApiKeyForm } from "./ApiKeyForm/ApiKeyForm";
-import { styles } from "./SettingsMenu.styles";
+import { RoundDurationMinutesFormItem } from "./formItems/RoundDurationMinutesFormItem";
+import { TogglApiTokenFormItem } from "./formItems/TogglApiTokenFormItem";
+import styles from "./SettingsMenu.module.scss";
 
 export interface IOptionsMenuItemProps {
     readonly onSave: (savedMessage: string) => void;
@@ -13,7 +14,7 @@ interface IOptionsMenuState {
     readonly isDropdownOpen: boolean;
 }
 
-export default class SettingsMenu extends React.Component<{}, IOptionsMenuState> {
+export class SettingsMenu extends React.Component<{}, IOptionsMenuState> {
     private dropdownContentRef: Menu | undefined;
     private dropdownRef: Dropdown | undefined;
 
@@ -39,9 +40,9 @@ export default class SettingsMenu extends React.Component<{}, IOptionsMenuState>
                 ref={(ref) => (this.dropdownRef = ref ? ref : undefined)}
                 overlay={this.renderMenu()}
                 visible={this.state.isDropdownOpen}
-                overlayStyle={styles.dropdownOverlay}
+                overlayClassName={styles.dropdownOverlay}
             >
-                <Icon type="setting" theme="outlined" style={styles.icon} onClick={this.toggleDropdown} />
+                <Icon type="setting" theme="outlined" className={styles.icon} onClick={this.toggleDropdown} />
             </Dropdown>
         );
     }
@@ -49,8 +50,9 @@ export default class SettingsMenu extends React.Component<{}, IOptionsMenuState>
     @BindThis()
     private renderMenu(): React.ReactNode {
         return (
-            <Menu style={styles.menu} ref={(ref) => (this.dropdownContentRef = ref ? ref : undefined)}>
-                <ApiKeyForm onSave={this.handleSave} />
+            <Menu className={styles.menu} ref={(ref) => (this.dropdownContentRef = ref ? ref : undefined)}>
+                <TogglApiTokenFormItem onSave={this.handleSave} />
+                <RoundDurationMinutesFormItem onSave={this.handleSave} />
             </Menu>
         );
     }
