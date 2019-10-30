@@ -22,4 +22,8 @@ export default class SettingsRepository {
 
     private static roundProjectDurationsDownToMinutesKey = "TogglEasyReports_Settings_RoundProjectDurationsDownToMinutes";
     private static togglApiTokenKey = "TogglEasyReports_Settings_TogglApiToken";
+
+    public static reset(): void {
+        localStorage.clear();
+    }
 }

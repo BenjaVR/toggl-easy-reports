@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useSettings } from "../../../context/SettingsContext";
 import { useUserState } from "../../../context/UserContext";
-import { IOptionsMenuItemProps } from "../index";
 import { SettingsFormItem } from "../SettingsFormItem";
+import { IOptionsMenuItemProps } from "../SettingsMenu";
 
 type TogglApiTokenFormItemProps = IOptionsMenuItemProps;
 

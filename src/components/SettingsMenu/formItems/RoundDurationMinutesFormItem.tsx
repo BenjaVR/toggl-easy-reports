@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSettings } from "../../../context/SettingsContext";
-import { IOptionsMenuItemProps } from "../index";
 import { SettingsFormItem } from "../SettingsFormItem";
+import { IOptionsMenuItemProps } from "../SettingsMenu";
 
 type RoundDurationMinutesFormItemProps = IOptionsMenuItemProps;
 
