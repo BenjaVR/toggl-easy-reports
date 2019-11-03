@@ -2,7 +2,11 @@
 
 This is a web application to view and format a Toggl report in an easy to copy way, using the official Toggl API.
 
-The main reason why I made this, is to be able to easily copy-paste the work that I have done in the internal time tracking tool of my company.
+## Motivation
+
+The main reason why I made this, is to be able to easily copy-paste the work that I have done to the internal time tracking tool of my workplace.
+
+This project was also a playground to test the new React Hooks.
 
 ## Development
 

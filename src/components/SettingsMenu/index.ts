@@ -1,3 +1,1 @@
-import SettingsMenu from "./SettingsMenu";
-
-export { SettingsMenu };
+export { default as SettingsPopup } from "./SettingsPopup";
