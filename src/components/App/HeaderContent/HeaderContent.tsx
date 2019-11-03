@@ -4,7 +4,7 @@ import * as React from "react";
 import { User } from "../../../models/User";
 import { BindThis } from "../../../utilities/BindThis";
 import { MediaQuery } from "../../MediaQuery";
-import { SettingsMenu } from "../../SettingsMenu";
+import { SettingsPopup } from "../../SettingsMenu";
 import { styles } from "./HeaderContent.styles";
 
 interface IHeaderContentProps {
@@ -43,7 +43,7 @@ class HeaderContent extends React.Component<IHeaderContentProps, IHeaderContentS
                     <h1 style={styles.navbarTitle}>Toggl Easy Reports</h1>
                 </div>
                 <div style={styles.optionsContainer}>
-                    <SettingsMenu />
+                    <SettingsPopup />
                 </div>
             </React.Fragment>
         );

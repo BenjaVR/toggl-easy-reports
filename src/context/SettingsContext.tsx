@@ -15,7 +15,6 @@ function settingsReducer(state: ISettingsState, action: SettingsAction): ISettin
     switch (action.type) {
         case "RESET":
             SettingsRepository.reset();
-            window.location.reload();
             return getInitialState();
         case "SET_TOGGL_API_TOKEN":
             SettingsRepository.togglApiToken = action.token;
