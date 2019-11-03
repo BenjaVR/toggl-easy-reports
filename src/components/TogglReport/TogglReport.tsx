@@ -1,4 +1,4 @@
-import { Card, Col, Row, Spin } from "antd";
+import { Card, Spin } from "antd";
 import moment from "moment";
 import * as React from "react";
 import { useSettings } from "../../context/SettingsContext";
@@ -8,7 +8,7 @@ import {
     roundReportProjectsDownToMinutes,
 } from "../../services/ReportProjectRoundedHoursService";
 import { padLeft } from "../../utilities/padLeft";
-import { styles } from "./TogglReport.styles";
+import styles from "./TogglReport.module.scss";
 import { TogglReportProject } from "./TogglReportProject";
 
 interface ITogglReportProps {
@@ -22,7 +22,7 @@ const TogglReport: React.FC<ITogglReportProps> = (props) => {
     if (report === undefined) {
         return (
             <Card title="Loading report...">
-                <Spin style={styles.loadingSpinner} />
+                <Spin className={styles.loadingSpinner} />
             </Card>
         );
     }

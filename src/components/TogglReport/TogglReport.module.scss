@@ -1,0 +1,30 @@
+$cardSpace: 16px;
+
+.loadingSpinner {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+}
+
+.projectsGrid {
+    padding: $cardSpace $cardSpace 0 $cardSpace;
+
+    > div:nth-of-type(2) { // workaround until resolved: https://github.com/ant-design/ant-design/pull/19199
+        column-gap: $cardSpace;
+        column-count: 3;
+
+        @media (max-width: 600px) {
+            column-count: 1;
+        }
+        @media (max-width: 1200px) {
+            column-count: 2;
+        }
+    }
+}
+
+.project {
+    width: 100%;
+    break-inside: avoid;
+    margin-bottom: $cardSpace;
+}
