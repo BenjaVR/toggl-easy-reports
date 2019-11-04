@@ -36,8 +36,8 @@ const TogglReport: React.FC<ITogglReportProps> = (props) => {
     }, 0);
 
     return (
-        <Card title={renderTogglReportTitle(report, totalRoundedDurationInMinutes)}>
-            <Row gutter={8}>{roundedProjectDurations.map(renderTogglReportColumn)}</Row>
+        <Card title={renderTogglReportTitle(report, totalRoundedDurationInMinutes)} className={styles.projectsGrid}>
+            {roundedProjectDurations.map(renderTogglReportProjects)}
         </Card>
     );
 };
@@ -69,14 +69,14 @@ function renderTogglReportTitle(report: Report, roundedDurationInMinutes: number
     );
 }
 
-function renderTogglReportColumn(roundedProjectDuration: IRoundedProjectDuration): React.ReactNode {
+function renderTogglReportProjects(roundedProjectDuration: IRoundedProjectDuration): React.ReactNode {
     return (
-        <Col key={roundedProjectDuration.reportProject.id} sm={24} lg={12} xxl={8}>
+        <div key={roundedProjectDuration.reportProject.id} className={styles.project}>
             <TogglReportProject
                 project={roundedProjectDuration.reportProject}
                 projectDurationInMinutes={roundedProjectDuration.roundedMinutes}
             />
-        </Col>
+        </div>
     );
 }
 

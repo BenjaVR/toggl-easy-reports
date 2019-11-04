@@ -11,7 +11,6 @@ const projectTitleLineStyles: CSSProperties = {
 export const styles = createStyles({
     projectCard: {
         marginBottom: cardMargin,
-        marginTop: cardMargin,
     },
     projectTitleLine: {
         ...projectTitleLineStyles,
@@ -22,5 +21,6 @@ export const styles = createStyles({
     },
     timeEntriesSummary: {
         whiteSpace: "pre-wrap",
+        overflowWrap: "break-word",
     },
 });

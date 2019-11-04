@@ -1,4 +1,4 @@
-$cardSpace: 16px;
+$cardSpacing: 4px;
 
 .loadingSpinner {
     position: absolute;
@@ -8,10 +8,8 @@ $cardSpace: 16px;
 }
 
 .projectsGrid {
-    padding: $cardSpace $cardSpace 0 $cardSpace;
-
     > div:nth-of-type(2) { // workaround until resolved: https://github.com/ant-design/ant-design/pull/19199
-        column-gap: $cardSpace;
+        column-gap: $cardSpacing;
         column-count: 3;
 
         @media (max-width: 600px) {
@@ -26,5 +24,5 @@ $cardSpace: 16px;
 .project {
     width: 100%;
     break-inside: avoid;
-    margin-bottom: $cardSpace;
+    margin-bottom: $cardSpacing;
 }
