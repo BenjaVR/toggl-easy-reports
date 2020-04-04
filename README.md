@@ -13,3 +13,4 @@ This project was also a playground to test the new React Hooks.
 The application is made with Typescript and React, using Create-React-App. Development uses their react-scripts, so use `npm start` to start the development server in watch mode.
 
 To be able to consume the Toggl API (without CORS issues), there is a [proxy server](./proxy) included, which can be started using `npm start` in the `./proxy` directory.
+
