@@ -1,11 +1,14 @@
 import { Collapse, DatePicker, Divider, message } from "antd";
 import moment from "moment";
 import * as React from "react";
+import { Client } from "../../../models/Client";
 import { Report } from "../../../models/Report";
 import { User } from "../../../models/User";
 import { LocaleManager } from "../../../services/locale/LocaleManager";
 import { ReportsService } from "../../../services/toggl/ReportsService";
+import WorkspaceService from "../../../services/toggl/WorkspaceService";
 import { BindThis } from "../../../utilities/BindThis";
+import { ClientSelector } from "../../ClientSelector";
 import { TogglReport } from "../../TogglReport";
 import { WorkspaceSelector } from "../../WorkspaceSelector";
 import styles from "./AuthenticatedContent.module.scss";
@@ -18,8 +21,14 @@ type AuthenticatedContentProps = IAuthenticatedContentProps;
 
 interface IAuthenticatedContentState {
     readonly selectedWorkspaceId: number;
+    readonly clients: Client[];
+    /**
+     * When null, all clients will be used.
+     */
+    readonly selectedClientName: string | undefined;
     readonly selectedDate: moment.Moment | undefined;
     readonly report: Report | undefined;
+    readonly areClientsFetching: boolean;
 }
 
 class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IAuthenticatedContentState> {
@@ -34,8 +43,11 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
 
         this.state = {
             selectedWorkspaceId: props.user.defaultWorkspaceId,
+            clients: [],
+            selectedClientName: undefined,
             selectedDate: moment(),
             report: undefined,
+            areClientsFetching: true,
         };
     }
 
@@ -44,7 +56,14 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
     }
 
     public render(): React.ReactNode {
-        const { selectedWorkspaceId, selectedDate, report } = this.state;
+        const {
+            selectedWorkspaceId,
+            selectedDate,
+            report,
+            clients,
+            selectedClientName,
+            areClientsFetching,
+        } = this.state;
         const { workspaces } = this.props.user;
 
         const optionsDefaultActiveKey = this.shouldOptionsBeOpenOnLoad()
@@ -64,6 +83,15 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
                                     selectedWorkspaceId={selectedWorkspaceId}
                                     onChange={this.handleWorkspaceSelectorChanged}
                                 />
+                                <Divider className={styles.optionsDivider} type="vertical" />
+                                <span className={styles.inputLabel}>Workspace:</span>
+                                <ClientSelector
+                                    className={styles.inputField}
+                                    clients={clients}
+                                    selectedClientName={selectedClientName}
+                                    onChange={this.handleClientSelectorChanged}
+                                    isLoading={areClientsFetching}
+                                />
                             </div>
                             <Divider className={styles.optionsDivider} type="vertical" />
                             <div className={styles.inputContainer}>
@@ -79,7 +107,7 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
                     </Collapse.Panel>
                 </Collapse>
                 <div className={styles.reportContainer}>
-                    <TogglReport report={report} />
+                    <TogglReport report={report} clientName={selectedClientName} />
                 </div>
             </div>
         );
@@ -99,6 +127,11 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
             return;
         }
         this.setState({ selectedWorkspaceId: workspaceId }, () => this.fetchReport());
+    }
+
+    @BindThis()
+    private handleClientSelectorChanged(clientName: string | undefined): void {
+        this.setState({ selectedClientName: clientName });
     }
 
     @BindThis()
@@ -122,12 +155,26 @@ class AuthenticatedContent extends React.Component<AuthenticatedContentProps, IA
         if (selectedDate !== undefined) {
             ReportsService.getSummaryReport(selectedWorkspaceId, selectedDate)
                 .then((report) => {
-                    this.setState({ report });
+                    this.setState({ report }, () => this.fetchWorkspace());
                 })
                 .catch(() => {
                     message.error("Could not fetch the Toggl report.");
                 });
         }
+    }
+
+    private fetchWorkspace(): void {
+        this.setState({ areClientsFetching: true });
+        WorkspaceService.getWorkspaceClients(this.state.selectedWorkspaceId)
+            .then((result) => {
+                this.setState({
+                    clients: result,
+                    selectedClientName: undefined,
+                });
+            })
+            .finally(() => {
+                this.setState({ areClientsFetching: false });
+            });
     }
 
     private shouldOptionsBeOpenOnLoad(): boolean {

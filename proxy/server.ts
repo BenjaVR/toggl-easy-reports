@@ -16,7 +16,7 @@ app.use(async (req: express.Request, res: express.Response) => {
         toggleRequestInit.body = req.body;
     }
 
-    const toggleUrl = `https://toggl.com${req.url}`;
+    const toggleUrl = `https://track.toggl.com${req.url}`;
     const togglResponse = await fetch(toggleUrl, toggleRequestInit);
 
     try {

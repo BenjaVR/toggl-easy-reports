@@ -11,9 +11,12 @@ interface IWorkspaceSelectorProps {
     readonly className?: string;
 }
 
-const WorkspaceSelector: React.FC<IWorkspaceSelectorProps> = (props) => {
-    const { onChange, className, workspaces, selectedWorkspaceId } = props;
-
+const WorkspaceSelector: React.FC<IWorkspaceSelectorProps> = ({
+    onChange,
+    className,
+    workspaces,
+    selectedWorkspaceId,
+}) => {
     const handleOptionChange = useCallback((workspaceId: number | undefined) => {
         if (onChange) {
             onChange(workspaceId);
@@ -41,9 +44,5 @@ function renderWorkspace(workspace: Workspace): React.ReactNode {
         </Select.Option>
     );
 }
-
-WorkspaceSelector.defaultProps = {
-    className: "",
-};
 
 export default WorkspaceSelector;

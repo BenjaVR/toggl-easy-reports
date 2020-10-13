@@ -13,10 +13,14 @@ import { TogglReportProject } from "./TogglReportProject";
 
 interface ITogglReportProps {
     readonly report: Report | undefined;
+    /**
+     * Optional client name to filter results.
+     */
+    readonly clientName: string | undefined;
 }
 
 const TogglReport: React.FC<ITogglReportProps> = (props) => {
-    const { report } = props;
+    const { report, clientName } = props;
     const { roundProjectDurationsDownToMinutes } = useSettings();
 
     if (report === undefined) {
@@ -27,8 +31,14 @@ const TogglReport: React.FC<ITogglReportProps> = (props) => {
         );
     }
 
+    // Filter by client if a client is given
+    const filteredProjects = clientName === undefined
+        ? report.projects
+        : report.projects.filter((p) => p.client === clientName);
+    const totalTimeInMilliseconds = filteredProjects.reduce((total, project) => total + project.timeInMilliseconds, 0);
+
     const roundedProjectDurations = roundReportProjectsDownToMinutes(
-        report.projects,
+        filteredProjects,
         roundProjectDurationsDownToMinutes,
     );
     const totalRoundedDurationInMinutes = roundedProjectDurations.reduce((total, duration) => {
@@ -36,14 +46,17 @@ const TogglReport: React.FC<ITogglReportProps> = (props) => {
     }, 0);
 
     return (
-        <Card title={renderTogglReportTitle(report, totalRoundedDurationInMinutes)} className={styles.projectsGrid}>
+        <Card
+            title={renderTogglReportTitle(totalTimeInMilliseconds, totalRoundedDurationInMinutes)}
+            className={styles.projectsGrid}
+        >
             {roundedProjectDurations.map(renderTogglReportProjects)}
         </Card>
     );
 };
 
-function renderTogglReportTitle(report: Report, roundedDurationInMinutes: number): React.ReactNode {
-    const duration = moment.duration(report.totalTimeInMilliseconds, "milliseconds");
+function renderTogglReportTitle(totalTimeInMilliseconds: number, roundedDurationInMinutes: number): React.ReactNode {
+    const duration = moment.duration(totalTimeInMilliseconds, "milliseconds");
     const hours = Math.floor(duration.asHours());
     const minutes = Math.floor(duration.asMinutes()) - hours * 60;
 

@@ -6,7 +6,7 @@ interface IQueryString {
 }
 
 export default abstract class BaseTogglApiService {
-    private static BASE_URL: string = "https://toggl.com";
+    private static BASE_URL: string = "https://track.toggl.com";
     private static USER_AGENT: string = "https://github.com/BenjaVR/toggl-easy-report";
 
     protected static async fetch<TResponse>(urlPath: string, queryString: IQueryString = {}): Promise<TResponse> {

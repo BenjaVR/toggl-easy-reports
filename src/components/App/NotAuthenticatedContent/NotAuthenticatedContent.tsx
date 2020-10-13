@@ -25,7 +25,7 @@ export default class NotAuthenticatedContent extends React.Component {
                 <p>
                     <span>Get your API token</span>
                     &nbsp;
-                    <a href="https://toggl.com/app/profile" rel="noopener noreferrer" target="_blank">
+                    <a href="https://track.toggl.com/app/profile" rel="noopener noreferrer" target="_blank">
                         here
                     </a>
                     .
